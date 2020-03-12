@@ -1,9 +1,21 @@
 /* All the actions to be taken when a token is found will be stored here */
-void Reall()
+#include "classdef.h"
+Symbol* InstallReal()
 {
-    cout<<"A real number is found";
+    //put the given real number in symbol table and return a pointer to the entry
+    Symbol s("REAL",yytext);
+    Stable.push_back(s);
+    return Stable.data()+Stable.size()-1;
 }
-void ID()
+Symbol* InstallInt()
 {
-    cout<<"identifier found";
+     Symbol s("INT",yytext);
+     Stable.push_back(s);
+     return Stable.data()+Stable.size()-1;
+}
+Symbol* InstallId()
+{
+     Symbol s("INT",yytext);
+     Stable.push_back(s);
+     return Stable.data()+Stable.size()-1;
 }
