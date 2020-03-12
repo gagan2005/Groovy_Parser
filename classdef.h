@@ -57,5 +57,6 @@ public:
         if(type==1)cout<<attr1;
         if(type==2)cout<<attr2;
         if(type==3)cout<<attr3;
+        cout<<endl;
     }
 };

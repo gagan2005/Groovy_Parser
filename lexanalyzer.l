@@ -29,12 +29,7 @@ int colno=1;
     yylval=t;
     yylval.print();
 }
-^[A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF$_][A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF0-9]*  {
-    Token t("ID",yytext);
-    Symbol *i=InstallId();
-    yylval=t;
-    yylval.print();
-}
+
 
 %{ //Beginning of the keywords Section %}
 if  {
@@ -102,6 +97,12 @@ case	 {
 
 %{ /* End of keyword Section */ %}
 
+[A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF$_][A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF0-9]*  {
+    Token t("ID",yytext);
+    Symbol *i=InstallId();
+    yylval=t;
+    yylval.print();
+}
 
 %%
 int main()
