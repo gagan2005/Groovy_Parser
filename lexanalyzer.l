@@ -30,6 +30,13 @@ int colno=1;
     yylval.print();
 }
 
+\'[^\"]\' {
+	Token t("CHAR",yytext[1]);     //new addition of char
+	yylval=t;
+	yylval.print();
+}
+
+
 
 %{ //Beginning of the keywords Section %}
 if  {

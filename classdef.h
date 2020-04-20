@@ -25,6 +25,9 @@ public:
     string attr1;
     int attr2;
     Symbol *attr3;
+    
+    char attr4; //new attribute for char
+    
     Token(string n)
     {
         name = n;
@@ -48,6 +51,14 @@ public:
         attr3 = attr;
         type = 3; //This denotes attribute of type pointer to Symbol tab;e
     }
+    
+    Token(string n, char attr)  //new addition of char
+    {
+    	name = n;
+    	attr4 = attr;
+    	type = 4;
+    }
+    
     Token() {}
     void print()
     {
