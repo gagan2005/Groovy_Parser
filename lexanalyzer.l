@@ -31,7 +31,8 @@ int colno=1;
 }
 
 \'[^\"]\' {
-	Token t("CHAR",yytext[1]);     //new addition of char
+	int a= yytext[1];
+	Token t("CHAR",a);     //new addition of char
 	yylval=t;
 	yylval.print();
 }
