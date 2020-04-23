@@ -104,16 +104,91 @@ case	 {
 
 %{ /* End of keyword Section */ %}
 
+%{/* Relational Operators Sectio */ %}
+
+\=   {
+    Token t("RELOP",1);
+    yylval=t;
+    yylval.print();
+}
+
+!\=  {
+    Token t("RELOP",2);
+    yylval=t;
+    yylval.print();
+}
+
+\<\=  {
+    Token t("RELOP",3);
+    yylval=t;
+    yylval.print();
+}
+
+\>\=  {
+    Token t("RELOP",4);
+    yylval=t;
+    yylval.print();
+}
+
+\<  {
+    Token t("RELOP",5);
+    yylval=t;
+    yylval.print();
+}
+
+> {
+    Token t("RELOP",6);
+    yylval=t;
+    yylval.print();
+}
+
+%{/* Operators Section */ %}
+
+\+ {
+    Token t("OP",1);
+    yylval=t;
+    yylval.print();
+}
+
+\- {
+    Token t("OP",2);
+    yylval=t;
+    yylval.print();
+}
+
+\* {
+    Token t("OP",3);
+    yylval=t;
+    yylval.print();
+}
+
+\/ {
+    Token t("OP",4);
+    yylval=t;
+    yylval.print();
+}
+
+%{/* Brackets Section */ %}
+
+\{  {
+    Token t("CBO");
+    yylval=t;
+    yylval.print();
+}
+
+
 [A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF$_][A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF0-9]*  {
     Token t("ID",yytext);
     Symbol *i=InstallId();
     yylval=t;
     yylval.print();
+    // return 1;
 }
 
 %%
 int main()
 {
+    
     yylex();
     cout<<"Symbols--"<<endl;
     for(int i=0;i<Stable.size();i++)Stable[i].print();
