@@ -13,8 +13,8 @@ public:
     }
     void print()
     {
-        cout<<"Symbol type = "<<type;
-        cout<<"Symbol value="<<val;
+        cout<<"Symbol type = "<<type<<"|";
+        cout<<"Symbol value="<<val<<endl;
     }
 };
 class Token

@@ -172,15 +172,75 @@ case	 {
 %{/* Brackets Section */ %}
 
 \{  {
-    Token t("CBO");
+    Token t("CURLY_BRACKET_O");
+    yylval=t;
+    yylval.print();
+}
+\}  {
+    Token t("CURLY_BRACKET_C");
+    yylval=t;
+    yylval.print();
+}
+\(  {
+    Token t("ROUND_BRACKET_O");
+    yylval=t;
+    yylval.print();
+}
+\)  {
+    Token t("ROUND_BRACKET_C");
+    yylval=t;
+    yylval.print();
+}
+\[  {
+    Token t("SQ_BRACKET_O");
+    yylval=t;
+    yylval.print();
+}
+\]  {
+    Token t("SQ_BRACKET_C");
+    yylval=t;
+    yylval.print();
+}
+
+%{/* DATA TYPE Section */ %}
+
+int {
+     Token t("DATA_TYPE","int");
+    yylval=t;
+    yylval.print();
+}
+char    {
+    Token t("DATA_TYPE","char");
+    yylval=t;
+    yylval.print();
+}
+double  {
+    Token t("DATA_TYPE","double");
+    yylval=t;
+    yylval.print();
+}
+float   {
+    Token t("DATA_TYPE","float");
+    yylval=t;
+    yylval.print();
+}
+Boolean {
+    Token t("DATA_TYPE","Boolean");
+    yylval=t;
+    yylval.print();
+}
+String  {
+    Token t("DATA_TYPE","String");
     yylval=t;
     yylval.print();
 }
 
 
 [A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF$_][A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF0-9]*  {
-    Token t("ID",yytext);
-    Symbol *i=InstallId();
+    
+    Symbol *i=InstallId();      
+    Token t("ID",i);
+    
     yylval=t;
     yylval.print();
     // return 1;
