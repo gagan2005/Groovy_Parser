@@ -105,7 +105,7 @@ case	 {
 
 %{ /* End of keyword Section */ %}
 
-%{/* Relational Operators Sectio */ %}
+%{/* Relational Operators Section */ %}
 
 \=   {
     Token t("RELOP",1);
@@ -165,6 +165,53 @@ case	 {
 
 \/ {
     Token t("OP",4);
+    yylval=t;
+    yylval.print();
+}
+
+
+%{/*Logical Operators Section */ %}
+
+\&\& {
+    Token t("LOGOP",1);
+    yylval=t;
+    yylval.print();
+}
+
+\|\| {
+    Token t("LOGOP",2);
+    yylval=t;
+    yylval.print();
+}
+
+\! {
+    Token t("LOGOP",3);
+    yylval=t;
+    yylval.print();
+}
+
+%{/* Bitwise Operators Section */ %}
+
+\& {
+    Token t("BITOP",1);
+    yylval=t;
+    yylval.print();
+}
+
+\| {
+    Token t("BITOP",2);
+    yylval=t;
+    yylval.print();
+}
+
+\^ {
+    Token t("BITOP",3);
+    yylval=t;
+    yylval.print();
+}
+
+\~ {
+    Token t("BITOP",4);
     yylval=t;
     yylval.print();
 }
@@ -231,6 +278,24 @@ Boolean {
 }
 String  {
     Token t("DATA_TYPE","String");
+    yylval=t;
+    yylval.print();
+}
+
+byte {
+	Token t("DATA_TYPE","byte");
+    yylval=t;
+    yylval.print();
+}
+
+short {
+	Token t("DATA_TYPE","short");
+    yylval=t;
+    yylval.print();
+}
+
+long {
+	Token t("DATA_TYPE","long");
     yylval=t;
     yylval.print();
 }
