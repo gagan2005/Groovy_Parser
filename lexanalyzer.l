@@ -101,6 +101,36 @@ case	 {
  	yylval=t;
  	yylval.print();
  }
+goto	{
+	Token t("GOTO");
+	yylval=t;
+ 	yylval.print();
+ }
+import  {
+	Token t("IMPORT");
+	yylval=t;
+ 	yylval.print();
+ }
+void	{
+	Token t("VOID");
+	yylval=t;
+ 	yylval.print();
+ }
+continue {
+	Token t("CONTINUE");
+	yylval=t;
+ 	yylval.print();
+ }
+static {
+	Token t("STATIC");
+	yylval=t;
+ 	yylval.print();
+ }
+default {	
+	Token t("DEFAULT");
+	yylval=t;
+    	yylval.print();
+ }
 
 
 %{ /* End of keyword Section */ %}
@@ -298,6 +328,12 @@ long {
 	Token t("DATA_TYPE","long");
     yylval=t;
     yylval.print();
+}
+
+enum {
+	Token t("DATA_TYPE","enum");
+	yylval=t;
+    	yylval.print();
 }
 
 
