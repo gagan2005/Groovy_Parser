@@ -1,24 +1,15 @@
 %{
-<<<<<<< HEAD
 // #include<iostream>
 // #include<vector>
 // #include<bits>
 #include<bits/stdc++.h>
-=======
-#include<iostream>
-#include<vector>
->>>>>>> 0caca0ad0a5a8e15ceef62cc0b2f855741630a81
 using namespace std;
 #include "classdef.h"
 Token yylval;
 
-<<<<<<< HEAD
 unordered_map<string,Symbolid> StableId;
 unordered_map<string,Symbolnum> StableNum;              //Symbol tables
 unordered_map<string,Symbolfloat> StableFloat;
-=======
-vector<Symbol> Stable;
->>>>>>> 0caca0ad0a5a8e15ceef62cc0b2f855741630a81
 
 #include "lexfunctions.h"
 int lineno=1;
