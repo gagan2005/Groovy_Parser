@@ -410,7 +410,7 @@ enum {
 }
 
 
-[a-zA-Z][a-zA-Z0-9]*  {
+[a-zA-Z\$_][a-zA-Z0-9]*  {
     colno+=yyleng;
     string s(yytext);
     Symbolid *i=InstallId(s,lineno,colno);      
