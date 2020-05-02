@@ -15,17 +15,23 @@ unordered_map<string,Symbolfloat> StableFloat;
 int lineno=1;
 int colno=1;
 %}
+%option noyywrap
 %%
+\n  {lineno++;colno=1;}
+[ ] {colno++;}
 [0-9]+\.[0-9]+  {
+    colno+=yyleng;
     string s(yytext);
-    Symbolfloat* i=InstallReal(s,1,0);                //The InstallReal function(defined in functions.h) will put data to symbol table
+    Symbolfloat* i=InstallReal(s,lineno,colno);                //The InstallReal function(defined in functions.h) will put data to symbol table
     Token t("REAL",i);                          
     yylval=t;
     yylval.print();
+
 }
 [0-9]+  {
+    colno+=yyleng;
     string s(yytext);
-    Symbolnum* i=InstallInt(s,1,0);               
+    Symbolnum* i=InstallInt(s,lineno,colno);               
     Token t("INT",i);                          
     yylval=t;
     yylval.print(); 
@@ -365,7 +371,7 @@ enum {
 
 [a-zA-Z][a-zA-Z0-9]*  {
     string s(yytext);
-    Symbolid *i=InstallId(s,1,0);      
+    Symbolid *i=InstallId(s,lineno,colno);      
     Token t("ID",i);
     
     yylval=t;
@@ -385,6 +391,7 @@ int main()
         cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
         cout<<endl;
     }
+    cout<<"------------------------------\n";
     cout<<"\t Symbol Table for Integers"<<endl;
     cout<<"Line no | Column no | Value"<<endl;
     for(auto m:StableNum)
@@ -392,6 +399,7 @@ int main()
         cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
         cout<<endl;
     }
+    cout<<"------------------------------\n";
     cout<<"\t Symbol Table for Floats"<<endl;
     cout<<"Line no | Column no | Value"<<endl;
     for(auto m:StableFloat)

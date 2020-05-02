@@ -1,2 +1,3 @@
-flex --noyywrap lexanalyzer.l
+flex lexanalyzer.l
 g++ lex.yy.c
+
