@@ -1,16 +1,20 @@
 %{
 #include<iostream>
 #include<vector>
+#include<map>
 using namespace std;
 #include "classdef.h"
 Token yylval;
 
-vector<Symbol> Stable;
+unordered_map<String,SymbolId> StableID;
+unordered_map<String,SymbolNum> StableNum;              //Symbol tables
+unordered_map<String,SymbolFloat> StableFloat;
 
 #include "lexfunctions.h"
 int lineno=1;
 int colno=1;
 %}
+%option noyywrap
 %%
 [0-9]+\.[0-9]+  {
     Symbol* i=InstallReal();                //The InstallReal function(defined in functions.h) will put data to symbol table
