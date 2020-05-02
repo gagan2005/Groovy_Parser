@@ -38,6 +38,7 @@ int colno=1;
 }
 \"[^\"]+\"    {
     Token t("STRING",yytext);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -54,37 +55,44 @@ int colno=1;
 %{ //Beginning of the keywords Section %}
 if  {
     Token t("IF");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 else   {
     Token t("ELSE");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 for    {
     Token t("FOR");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 while   {
     Token t("WHILE");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 do  {
     Token t("DO");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 switch  {
     Token t("SWITCH");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 	
 return  {
     Token t("RET");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -171,36 +179,42 @@ assert {
 
 \=   {
     Token t("RELOP",1);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 !\=  {
     Token t("RELOP",2);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \<\=  {
     Token t("RELOP",3);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \>\=  {
     Token t("RELOP",4);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \<  {
     Token t("RELOP",5);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 > {
     Token t("RELOP",6);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -209,24 +223,28 @@ assert {
 
 \+ {
     Token t("OP",1);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \- {
     Token t("OP",2);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \* {
     Token t("OP",3);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \/ {
     Token t("OP",4);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -236,18 +254,21 @@ assert {
 
 \&\& {
     Token t("LOGOP",1);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \|\| {
     Token t("LOGOP",2);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \! {
     Token t("LOGOP",3);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -256,24 +277,28 @@ assert {
 
 \& {
     Token t("BITOP",1);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \| {
     Token t("BITOP",2);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \^ {
     Token t("BITOP",3);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 \~ {
     Token t("BITOP",4);
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -282,31 +307,37 @@ assert {
 
 \{  {
     Token t("CURLY_BRACKET_O");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 \}  {
     Token t("CURLY_BRACKET_C");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 \(  {
     Token t("ROUND_BRACKET_O");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 \)  {
     Token t("ROUND_BRACKET_C");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 \[  {
     Token t("SQ_BRACKET_O");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 \]  {
     Token t("SQ_BRACKET_C");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
@@ -315,64 +346,76 @@ assert {
 
 int {
      Token t("DATA_TYPE","int");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 char    {
     Token t("DATA_TYPE","char");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 double  {
     Token t("DATA_TYPE","double");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 float   {
     Token t("DATA_TYPE","float");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 Boolean {
     Token t("DATA_TYPE","Boolean");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 String  {
     Token t("DATA_TYPE","String");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 byte {
 	Token t("DATA_TYPE","byte");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 short {
 	Token t("DATA_TYPE","short");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 long {
 	Token t("DATA_TYPE","long");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
 }
 
 enum {
 	Token t("DATA_TYPE","enum");
+    colno+=yyleng;
 	yylval=t;
     	yylval.print();
 }
 
 
 [a-zA-Z][a-zA-Z0-9]*  {
+    colno+=yyleng;
     string s(yytext);
     Symbolid *i=InstallId(s,lineno,colno);      
     Token t("ID",i);
+    
     
     yylval=t;
     yylval.print();
