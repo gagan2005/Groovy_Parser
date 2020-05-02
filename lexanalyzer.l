@@ -1,14 +1,15 @@
 %{
-#include<iostream>
-#include<vector>
-#include<map>
+// #include<iostream>
+// #include<vector>
+// #include<bits>
+#include<bits/stdc++.h>
 using namespace std;
 #include "classdef.h"
 Token yylval;
 
-unordered_map<String,SymbolId> StableID;
-unordered_map<String,SymbolNum> StableNum;              //Symbol tables
-unordered_map<String,SymbolFloat> StableFloat;
+unordered_map<string,Symbolid> StableId;
+unordered_map<string,Symbolnum> StableNum;              //Symbol tables
+unordered_map<string,Symbolfloat> StableFloat;
 
 #include "lexfunctions.h"
 int lineno=1;
@@ -17,13 +18,15 @@ int colno=1;
 %option noyywrap
 %%
 [0-9]+\.[0-9]+  {
-    Symbol* i=InstallReal();                //The InstallReal function(defined in functions.h) will put data to symbol table
+    string s(yytext);
+    Symbolfloat* i=InstallReal(s,1,0);                //The InstallReal function(defined in functions.h) will put data to symbol table
     Token t("REAL",i);                          
     yylval=t;
     yylval.print();
 }
 [0-9]+  {
-    Symbol* i=InstallInt();               
+    string s(yytext);
+    Symbolnum* i=InstallInt(s,1,0);               
     Token t("INT",i);                          
     yylval=t;
     yylval.print(); 
@@ -341,9 +344,9 @@ enum {
 }
 
 
-[A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF$_][A-za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF0-9]*  {
-    
-    Symbol *i=InstallId();      
+[a-zA-Z][a-zA-Z0-9]*  {
+    string s(yytext);
+    Symbolid *i=InstallId(s,1,0);      
     Token t("ID",i);
     
     yylval=t;
@@ -356,6 +359,25 @@ int main()
 {
     
     yylex();
-    cout<<"Symbols--"<<endl;
-    for(int i=0;i<Stable.size();i++)Stable[i].print();
+    cout<<"\t Symbol Table for Id"<<endl;
+    cout<<"Line no | Column no | Value"<<endl;
+    for(auto m:StableId)
+    {
+        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+        cout<<endl;
+    }
+    cout<<"\t Symbol Table for Integers"<<endl;
+    cout<<"Line no | Column no | Value"<<endl;
+    for(auto m:StableNum)
+    {
+        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+        cout<<endl;
+    }
+    cout<<"\t Symbol Table for Floats"<<endl;
+    cout<<"Line no | Column no | Value"<<endl;
+    for(auto m:StableFloat)
+    {
+        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+        cout<<endl;
+    }
 }

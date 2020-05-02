@@ -1,21 +1,36 @@
-/* All the actions to be taken when a token is found will be stored here */
 #include "classdef.h"
-Symbol* InstallReal()
+Symbolid *InstallId(string k, int ln, int cn)
 {
-    //put the given real number in symbol table and return a pointer to the entry
-    Symbol s("REAL",yytext);
-    Stable.push_back(s);
-    return Stable.data()+Stable.size()-1;
+     //put the given real number in symbol table and return a pointer to the entry
+     if (!StableId.count(k)) //Checks if the symbol is already present in the table
+     {
+           Symbolid s(k, ln, cn); //if not present creates a new entry into the symbol table
+           StableId[k] = s;
+     }
+     auto it = StableId.find(k);
+     return (&(it->second));
 }
-Symbol* InstallInt()
+Symbolfloat *InstallReal(string k, int ln, int cn)
 {
-     Symbol s("INT",yytext);
-     Stable.push_back(s);
-     return Stable.data()+Stable.size()-1;
+     //put the given real number in symbol table and return a pointer to the entry
+     if (!StableFloat.count(k))
+     {
+          Symbolfloat s(k, ln, cn);
+          StableFloat[k] = s;
+     }
+     auto it = StableFloat.find(k);
+     return (&(it->second));
 }
-Symbol* InstallId()
+Symbolnum *InstallInt(string k, int ln, int cn)
 {
-     Symbol s("INT",yytext);
-     Stable.push_back(s);
-     return Stable.data()+Stable.size()-1;
+
+     if (!StableId.count(k))
+     {
+          Symbolnum s(k, ln, cn); 
+          StableNum[k] =s; 
+     }
+          auto it = StableNum.find(k);
+          return (&(it->second));
+     
+
 }
