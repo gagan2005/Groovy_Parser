@@ -71,6 +71,7 @@ else   {
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
+
 for    {
     Token t("FOR");
     colno+=yyleng;
@@ -203,6 +204,36 @@ assert {
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
+volatile {
+	Token t("VOLATILE");
+	yylval=t;
+    	yylval.print();
+ }
+const {
+	Token t("CONST");
+	yylval=t;
+    	yylval.print();
+ }
+console {
+	Token t("CONSOLE");
+	yylval=t;
+    	yylval.print();
+ }
+system {
+	Token t("SYSTEM");
+	yylval=t;
+    	yylval.print();
+ }
+; {
+	Token t("TERMINATION");
+	yylval=t;
+    	yylval.print();
+}
+new {
+	Token t("NEW");
+	yylval=t;
+    	yylval.print();
+ }
 
 
 %{ /* End of keyword Section */ %}
@@ -291,6 +322,12 @@ assert {
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
 
+\% {
+    Token t("OP",5);
+    colno+=yyleng;
+    yylval=t;
+    yylval.print();
+}
 
 %{/*Logical Operators Section */ %}
 
