@@ -4,7 +4,7 @@ def addd(a,b)
 }
 int x=2
 int y=3
-z=addd(x,y)
+int z=addd(x,y)
 print z
 
 def n=100     //this is a sample comment
@@ -13,9 +13,9 @@ comment */
 def i=0
 for(i=0;i<n;i++)
 {
-    println (i*b);
+    println (i*m);
 }
-switch(b) {
+switch(m) {
     case 1:println(1)
         
     break

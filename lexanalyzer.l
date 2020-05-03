@@ -20,9 +20,10 @@ int colno=1;
 \n  {lineno++;colno=1;}
 [ ] {colno++;}
 [0-9]+\.[0-9]+  {
-    colno+=yyleng;
+    
     string s(yytext);
     Symbolfloat* i=InstallReal(s,lineno,colno);                //The InstallReal function(defined in functions.h) will put data to symbol table
+    colno+=yyleng;
     Token t("REAL",i);                          
     yylval=t;
     yylval.print();
@@ -30,9 +31,10 @@ int colno=1;
 
 }
 [0-9]+  {
-    colno+=yyleng;
+    
     string s(yytext);
-    Symbolnum* i=InstallInt(s,lineno,colno);               
+    Symbolnum* i=InstallInt(s,lineno,colno); 
+    colno+=yyleng;              
     Token t("INT",i);                          
     yylval=t;
     yylval.print();
@@ -564,7 +566,19 @@ enum {
 
 }
 \/\*.*\n.*\*\/ {
-	
+   
+   
+	for(int i=0;i<yyleng;i++)
+    {
+        cout<<yytext[i];
+        if(yytext[i]=='\n')
+        {
+            colno=1;
+            lineno++;
+        }
+        else colno++;
+        // cout<<"lineno"<<lineno;
+    }
 }
 
 ,   {
@@ -577,9 +591,11 @@ enum {
 
 
 [a-zA-Z\$_][a-zA-Z0-9]*  {
-    colno+=yyleng;
+   
     string s(yytext);
+    
     Symbolid *i=InstallId(s,lineno,colno);      
+     colno+=yyleng;
     Token t("ID",i);
     
     
