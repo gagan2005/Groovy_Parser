@@ -258,6 +258,13 @@ system {
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
+: {
+	Token t("COLON");
+	colno+=yyleng;
+	yylval=t;
+    	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+}
 new {
 	Token t("NEW");
 	colno+=yyleng;
