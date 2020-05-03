@@ -114,12 +114,13 @@ public:
     Token() {}
     void print()
     {
-        std::cout << "Token name = " << name << "\t";
+        std::cout << "Token name = " << name << "\n";
         std::cout << "Attribute-";
         if(attr_type==-1)cout<<"None";
         if(attr_type==1)cout<<attr1;
         if(attr_type==2)cout<<attr2;
         if(attr_type>=3)cout<<attr3;
-        cout<<endl;
+        cout<<"\n";
+        // cout<<endl;
     }
 };
