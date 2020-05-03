@@ -49,6 +49,7 @@ int colno=1;
 \'[^\"]\' {
 	int a= yytext[1];
 	Token t("CHAR",a);     //new addition of char
+	colno+=yyleng;
 	yylval=t;
 	yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
@@ -110,131 +111,179 @@ return  {
 }
 break	 { 
  	Token t("BREAK");
+ 	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 true	 { 
  	Token t("TRUE");
+ 	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 false	 { 
  	Token t("FALSE");
+ 	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 null	 { 
  	Token t("NULL");
+ 	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 case	 { 
  	Token t("CASE");
+ 	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 goto	{
 	Token t("GOTO");
+	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 import  {
 	Token t("IMPORT");
+	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 void	{
 	Token t("VOID");
+	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 continue {
 	Token t("CONTINUE");
+	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 static {
 	Token t("STATIC");
+	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 default {	
 	Token t("DEFAULT");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 println {
 	Token t("PRINTLN");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 print   {
     Token t("PRINT");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
 def {
 	Token t("DEF");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 in {
 	Token t("IN");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 assert {
 	Token t("ASSERT");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 volatile {
 	Token t("VOLATILE");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 const {
 	Token t("CONST");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 console {
 	Token t("CONSOLE");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 system {
 	Token t("SYSTEM");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
 ; {
 	Token t("TERMINATION");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
 new {
 	Token t("NEW");
+	colno+=yyleng;
 	yylval=t;
     	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  }
-
+newreader {
+	Token t("NEWREADER");
+	colno+=yyleng;
+	yylval=t;
+    	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ }
+readline {
+	Token t("READLINE");
+	colno+=yyleng;
+	yylval=t;
+    	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+}
+\. {
+	Token t("DOT");
+	colno+=yyleng;
+	yylval=t;
+    	yylval.print();
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+}
 
 %{ /* End of keyword Section */ %}
 
@@ -280,7 +329,7 @@ new {
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
 
-> {
+\> {
     Token t("RELOP",6);
     colno+=yyleng;
     yylval=t;
@@ -510,15 +559,17 @@ enum {
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 }
+
 \/\/.* {
 
 }
 \/\*.*\n.*\*\/ {
-    cout<<yytext;
+	
 }
 
 ,   {
     Token t("COMMA");
+    colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
