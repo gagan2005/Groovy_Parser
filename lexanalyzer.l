@@ -26,6 +26,7 @@ int colno=1;
     Token t("REAL",i);                          
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 
 }
 [0-9]+  {
@@ -34,13 +35,15 @@ int colno=1;
     Symbolnum* i=InstallInt(s,lineno,colno);               
     Token t("INT",i);                          
     yylval=t;
-    yylval.print(); 
+    yylval.print();
+    cout<<"Text-"<<yytext<<endl; 
 }
 \"[^\"]+\"    {
     Token t("STRING",yytext);
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \'[^\"]\' {
@@ -48,6 +51,7 @@ int colno=1;
 	Token t("CHAR",a);     //new addition of char
 	yylval=t;
 	yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 
@@ -58,36 +62,42 @@ if  {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 else   {
     Token t("ELSE");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 for    {
     Token t("FOR");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 while   {
     Token t("WHILE");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 do  {
     Token t("DO");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 switch  {
     Token t("SWITCH");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 	
 return  {
@@ -95,81 +105,103 @@ return  {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 break	 { 
  	Token t("BREAK");
  	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 true	 { 
  	Token t("TRUE");
  	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 false	 { 
  	Token t("FALSE");
  	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 null	 { 
  	Token t("NULL");
  	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 case	 { 
  	Token t("CASE");
  	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 goto	{
 	Token t("GOTO");
 	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 import  {
 	Token t("IMPORT");
 	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 void	{
 	Token t("VOID");
 	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 continue {
 	Token t("CONTINUE");
 	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 static {
 	Token t("STATIC");
 	yylval=t;
  	yylval.print();
+     cout<<"Text-"<<yytext<<endl;
  }
 default {	
 	Token t("DEFAULT");
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
  }
 println {
 	Token t("PRINTLN");
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
  }
+print   {
+    Token t("PRINT");
+	yylval=t;
+    	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
+}
 def {
 	Token t("DEF");
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
  }
 in {
 	Token t("IN");
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
  }
 assert {
 	Token t("ASSERT");
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
  }
 
 
@@ -182,6 +214,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 !\=  {
@@ -189,6 +222,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \<\=  {
@@ -196,6 +230,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \>\=  {
@@ -203,6 +238,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \<  {
@@ -210,6 +246,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 > {
@@ -217,6 +254,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 %{/* Operators Section */ %}
@@ -226,6 +264,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \- {
@@ -233,6 +272,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \* {
@@ -240,6 +280,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \/ {
@@ -247,6 +288,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 
@@ -257,6 +299,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \|\| {
@@ -264,6 +307,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \! {
@@ -271,6 +315,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 %{/* Bitwise Operators Section */ %}
@@ -280,6 +325,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \| {
@@ -287,6 +333,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \^ {
@@ -294,6 +341,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 \~ {
@@ -301,6 +349,7 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 %{/* Brackets Section */ %}
@@ -310,36 +359,42 @@ assert {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 \}  {
     Token t("CURLY_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 \(  {
     Token t("ROUND_BRACKET_O");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 \)  {
     Token t("ROUND_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 \[  {
     Token t("SQ_BRACKET_O");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 \]  {
     Token t("SQ_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 %{/* DATA TYPE Section */ %}
@@ -349,36 +404,42 @@ int {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 char    {
     Token t("DATA_TYPE","char");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 double  {
     Token t("DATA_TYPE","double");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 float   {
     Token t("DATA_TYPE","float");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 Boolean {
     Token t("DATA_TYPE","Boolean");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 String  {
     Token t("DATA_TYPE","String");
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 byte {
@@ -386,6 +447,7 @@ byte {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 short {
@@ -393,6 +455,7 @@ short {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 long {
@@ -400,6 +463,7 @@ long {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 enum {
@@ -407,6 +471,20 @@ enum {
     colno+=yyleng;
 	yylval=t;
     	yylval.print();
+        cout<<"Text-"<<yytext<<endl;
+}
+\/\/.* {
+
+}
+\/\*.*\n.*\*\/ {
+    cout<<yytext;
+}
+
+,   {
+    Token t("COMMA");
+    yylval=t;
+    yylval.print();
+    cout<<"Text-"<<yytext<<endl;
 }
 
 
@@ -419,6 +497,7 @@ enum {
     
     yylval=t;
     yylval.print();
+    cout<<"Text-"<<yytext<<endl;
     // return 1;
 }
 
@@ -428,26 +507,26 @@ int main()
     
     yylex();
     cout<<"\t Symbol Table for Id"<<endl;
-    cout<<"Line no | Column no | Value"<<endl;
-    for(auto m:StableId)
-    {
-        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+    cout<<"Pointer \t Line no | Column no | Value"<<endl;
+    for(auto m=StableId.begin();m!=StableId.end();m++)
+    {   
+        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
         cout<<endl;
     }
     cout<<"------------------------------\n";
     cout<<"\t Symbol Table for Integers"<<endl;
-    cout<<"Line no | Column no | Value"<<endl;
-    for(auto m:StableNum)
+    cout<<"Pointer \t Line no | Column no | Value"<<endl;
+    for(auto m=StableNum.begin();m!=StableNum.end();m++)
     {
-        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
         cout<<endl;
     }
     cout<<"------------------------------\n";
     cout<<"\t Symbol Table for Floats"<<endl;
-    cout<<"Line no | Column no | Value"<<endl;
-    for(auto m:StableFloat)
+    cout<<"Pointer \t Line no | Column no | Value"<<endl;
+    for(auto m=StableFloat.begin();m!=StableFloat.end();m++)
     {
-        cout<<m.second.lineno<<"\t"<<m.second.colno<<"\t"<<m.second.val;
+        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
         cout<<endl;
     }
 }
