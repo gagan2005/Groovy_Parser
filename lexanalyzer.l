@@ -5,7 +5,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 #include "classdef.h"
-Token yylval;
+#define YYSTYPE token
+#include "parser.tab.h"
+// token yylval;
 
 unordered_map<string,Symbolid> StableId;
 unordered_map<string,Symbolnum> StableNum;              //Symbol tables
@@ -24,10 +26,11 @@ int colno=1;
     string s(yytext);
     Symbolfloat* i=InstallReal(s,lineno,colno);                //The InstallReal function(defined in functions.h) will put data to symbol table
     colno+=yyleng;
-    Token t("REAL",i);                          
+    token t("REAL",i);                          
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return REAL;
 
 }
 [0-9]+  {
@@ -35,263 +38,300 @@ int colno=1;
     string s(yytext);
     Symbolnum* i=InstallInt(s,lineno,colno); 
     colno+=yyleng;              
-    Token t("INT",i);                          
+    token t("INT",i);                          
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n"; 
+	return INT;
 }
 \"[^\"]+\"    {
-    Token t("STRING",yytext);
+    token t("STRING",yytext);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return STRING;
 }
 
 \'[^\"]\' {
 	int a= yytext[1];
-	Token t("CHAR",a);     //new addition of char
+	token t("CHAR",a);     //new addition of char
 	colno+=yyleng;
 	yylval=t;
 	yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return CHAR;
 }
 
 
 
 %{ //Beginning of the keywords Section %}
 if  {
-    Token t("IF");
+    token t("IF");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return IF;
 }
 else   {
-    Token t("ELSE");
+    token t("ELSE");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return ELSE;
 }
 
 for    {
-    Token t("FOR");
+    token t("FOR");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return FOR;
 }
+
 while   {
-    Token t("WHILE");
+    token t("WHILE");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return WHILE;
 }
 do  {
-    Token t("DO");
+    token t("DO");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return DO;
 }
 switch  {
-    Token t("SWITCH");
+    token t("SWITCH");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return SWITCH;
 }
 	
 return  {
-    Token t("RET");
+    token t("RET");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RET;
 }
 break	 { 
- 	Token t("BREAK");
+ 	token t("BREAK");
  	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return BREAK;
  }
 true	 { 
- 	Token t("TRUE");
+ 	token t("TRUE");
  	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return TRUE;
  }
 false	 { 
- 	Token t("FALSE");
+ 	token t("FALSE");
  	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return FALSE;
  }
 null	 { 
- 	Token t("NULL");
+ 	token t("NULL");
  	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return _NULL;
  }
 case	 { 
- 	Token t("CASE");
+ 	token t("CASE");
  	colno+=yyleng;
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CASE;
  }
 goto	{
-	Token t("GOTO");
+	token t("GOTO");
 	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return GOTO;
  }
 import  {
-	Token t("IMPORT");
+	token t("IMPORT");
 	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return IMPORT;
  }
 void	{
-	Token t("VOID");
+	token t("VOID");
 	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return VOID;
  }
 continue {
-	Token t("CONTINUE");
+	token t("CONTINUE");
 	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONTINUE;
  }
 static {
-	Token t("STATIC");
+	token t("STATIC");
 	colno+=yyleng;
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return STATIC;
  }
 default {	
-	Token t("DEFAULT");
+	token t("DEFAULT");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return DEFAULT;
  }
 println {
-	Token t("PRINTLN");
+	token t("PRINTLN");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return PRINTLN;
  }
 print   {
-    Token t("PRINT");
+    token t("PRINT");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return PRINT;
 }
 def {
-	Token t("DEF");
+	token t("DEF");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return DEF;
  }
 in {
-	Token t("IN");
+	token t("IN");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return IN;
  }
 assert {
-	Token t("ASSERT");
+	token t("ASSERT");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return ASSERT;
  }
 volatile {
-	Token t("VOLATILE");
+	token t("VOLATILE");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return VOLATILE;
  }
 const {
-	Token t("CONST");
+	token t("CONST");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONST;
  }
 console {
-	Token t("CONSOLE");
+	token t("CONSOLE");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONSOLE;
  }
 system {
-	Token t("SYSTEM");
+	token t("SYSTEM");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return SYSTEM;
  }
 ; {
-	Token t("TERMINATION");
+	token t("TERM");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return TERM;
 }
 : {
-	Token t("COLON");
+	token t("COLON");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return COLON;
 }
 new {
-	Token t("NEW");
+	token t("NEW");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return NEW;
  }
 newreader {
-	Token t("NEWREADER");
+	token t("NEWREADER");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return NEWREADER;
  }
 readline {
-	Token t("READLINE");
+	token t("READLINE");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return READLINE;
 }
 \. {
-	Token t("DOT");
+	token t("DOT");
 	colno+=yyleng;
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return DOT;
 }
 
 %{ /* End of keyword Section */ %}
@@ -299,274 +339,308 @@ readline {
 %{/* Relational Operators Section */ %}
 
 \=   {
-    Token t("RELOP",1);
+    token t("RELOP",1);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RELOP;
 }
 
 !\=  {
-    Token t("RELOP",2);
+    token t("RELOP",2);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RELOP;
 }
 
 \<\=  {
-    Token t("RELOP",3);
+    token t("RELOP",3);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \>\=  {
-    Token t("RELOP",4);
+    token t("RELOP",4);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \<  {
-    Token t("RELOP",5);
+    token t("RELOP",5);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \> {
-    Token t("RELOP",6);
+    token t("RELOP",6);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 %{/* Operators Section */ %}
 
 \+ {
-    Token t("OP",1);
+    token t("OP",1);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \- {
-    Token t("OP",2);
+    token t("OP",2);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \* {
-    Token t("OP",3);
+    token t("OP",3);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \/ {
-    Token t("OP",4);
+    token t("OP",4);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \% {
-    Token t("OP",5);
+    token t("OP",5);
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    return OP;
 }
 
 %{/*Logical Operators Section */ %}
 
 \&\& {
-    Token t("LOGOP",1);
+    token t("LOGOP",1);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 \|\| {
-    Token t("LOGOP",2);
+    token t("LOGOP",2);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 \! {
-    Token t("LOGOP",3);
+    token t("LOGOP",3);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 %{/* Bitwise Operators Section */ %}
 
 \& {
-    Token t("BITOP",1);
+    token t("BITOP",1);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \| {
-    Token t("BITOP",2);
+    token t("BITOP",2);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \^ {
-    Token t("BITOP",3);
+    token t("BITOP",3);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \~ {
-    Token t("BITOP",4);
+    token t("BITOP",4);
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 %{/* Brackets Section */ %}
 
 \{  {
-    Token t("CURLY_BRACKET_O");
+    token t("CURLY_BRACKET_O");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return CBO;
 }
 \}  {
-    Token t("CURLY_BRACKET_C");
+    token t("CURLY_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return CBC;
 }
 \(  {
-    Token t("ROUND_BRACKET_O");
+    token t("ROUND_BRACKET_O");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RBO;
 }
 \)  {
-    Token t("ROUND_BRACKET_C");
+    token t("ROUND_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RBC;
 }
 \[  {
-    Token t("SQ_BRACKET_O");
+    token t("SQ_BRACKET_O");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return SBO;
 }
 \]  {
-    Token t("SQ_BRACKET_C");
+    token t("SQ_BRACKET_C");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return SBC;
 }
 
 %{/* DATA TYPE Section */ %}
 
 int {
-     Token t("DATA_TYPE","int");
+     token t("DATA_TYPE","int");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 char    {
-    Token t("DATA_TYPE","char");
+    token t("DATA_TYPE","char");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 double  {
-    Token t("DATA_TYPE","double");
+    token t("DATA_TYPE","double");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 float   {
-    Token t("DATA_TYPE","float");
+    token t("DATA_TYPE","float");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 Boolean {
-    Token t("DATA_TYPE","Boolean");
+    token t("DATA_TYPE","Boolean");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 String  {
-    Token t("DATA_TYPE","String");
+    token t("DATA_TYPE","String");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 byte {
-	Token t("DATA_TYPE","byte");
+	token t("DATA_TYPE","byte");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 short {
-	Token t("DATA_TYPE","short");
+	token t("DATA_TYPE","short");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 long {
-	Token t("DATA_TYPE","long");
+	token t("DATA_TYPE","long");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 enum {
-	Token t("DATA_TYPE","enum");
+	token t("DATA_TYPE","enum");
     colno+=yyleng;
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        return DT;
 }
 
 \/\/.* {
@@ -589,11 +663,12 @@ enum {
 }
 
 ,   {
-    Token t("COMMA");
+    token t("COMMA");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return COMMA;
 }
 
 
@@ -603,41 +678,43 @@ enum {
     
     Symbolid *i=InstallId(s,lineno,colno);      
      colno+=yyleng;
-    Token t("ID",i);
+    token t("ID",i);
     
     
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
     // return 1;
+    return ID;
 }
 
+
 %%
-int main()
-{
+// int main()
+// {
     
-    yylex();
-    cout<<"\t Symbol Table for Id"<<endl;
-    cout<<"Pointer \t Line no | Column no | Value"<<endl;
-    for(auto m=StableId.begin();m!=StableId.end();m++)
-    {   
-        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
-        cout<<endl;
-    }
-    cout<<"------------------------------\n";
-    cout<<"\t Symbol Table for Integers"<<endl;
-    cout<<"Pointer \t Line no | Column no | Value"<<endl;
-    for(auto m=StableNum.begin();m!=StableNum.end();m++)
-    {
-        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
-        cout<<endl;
-    }
-    cout<<"------------------------------\n";
-    cout<<"\t Symbol Table for Floats"<<endl;
-    cout<<"Pointer \t Line no | Column no | Value"<<endl;
-    for(auto m=StableFloat.begin();m!=StableFloat.end();m++)
-    {
-        cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
-        cout<<endl;
-    }
-}
+//     yylex();
+//     cout<<"\t Symbol Table for Id"<<endl;
+//     cout<<"Pointer \t Line no | Column no | Value"<<endl;
+//     for(auto m=StableId.begin();m!=StableId.end();m++)
+//     {   
+//         cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
+//         cout<<endl;
+//     }
+//     cout<<"------------------------------\n";
+//     cout<<"\t Symbol Table for Integers"<<endl;
+//     cout<<"Pointer \t Line no | Column no | Value"<<endl;
+//     for(auto m=StableNum.begin();m!=StableNum.end();m++)
+//     {
+//         cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
+//         cout<<endl;
+//     }
+//     cout<<"------------------------------\n";
+//     cout<<"\t Symbol Table for Floats"<<endl;
+//     cout<<"Pointer \t Line no | Column no | Value"<<endl;
+//     for(auto m=StableFloat.begin();m!=StableFloat.end();m++)
+//     {
+//         cout<<&(m->second)<<"  \t"<<m->second.lineno<<"\t"<<m->second.colno<<"\t"<<m->second.val;
+//         cout<<endl;
+//     }
+// }

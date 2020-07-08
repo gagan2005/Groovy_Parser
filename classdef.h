@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <stdio.h>
 #include <iostream>
 class Symbols
 {
@@ -64,7 +64,7 @@ class Symbolfloat : public Symbols
 
 
 
-class Token
+class token
 {
 public:
     string name;
@@ -74,36 +74,36 @@ public:
     Symbols *attr3;
     
     
-    Token(string n)
+    token(string n)
     {
         name = n;
         attr_type = -1; //This denotes no attribute
     }
-    Token(string n, string attr)
+    token(string n, string attr)
     {
         name = n;
         attr1 = attr;
         attr_type = 1; //This denotes attribute of attr_type string
     }
-    Token(string n, int attr)
+    token(string n, int attr)
     {
         name = n;
         attr2 = attr;
         attr_type = 2; //This denotes attribute of attr_type int
     }
-    Token(string n, Symbolid *attr)
+    token(string n, Symbolid *attr)
     {
         name = n;
         attr3 = attr;
         attr_type = 3; //This denotes attribute of attr_type pointer to Symbol table for Id
     }
-    Token(string n, Symbolnum *attr)
+    token(string n, Symbolnum *attr)
     {
         name = n;
         attr3 = attr;
         attr_type = 4; //This denotes attribute of attr_type pointer to Symbol table for integer
     }
-    Token(string n, Symbolfloat *attr)
+    token(string n, Symbolfloat *attr)
     {
         name = n;
         attr3 = attr;
@@ -111,10 +111,10 @@ public:
     }
     
     
-    Token() {}
+    token() {}
     void print()
     {
-        std::cout << "Token name = " << name << "\n";
+        std::cout << "token name = " << name << "\n";
         std::cout << "Attribute-";
         if(attr_type==-1)cout<<"None";
         if(attr_type==1)cout<<attr1;
