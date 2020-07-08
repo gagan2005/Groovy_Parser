@@ -48,10 +48,10 @@ using namespace std;
 %token NEWREADER
 %token READLINE
 %token DOT
-%token RELOP
+%left RELOP
 %left OP
-%token LOGOP
-%token BITOP
+%left LOGOP
+%left BITOP
 %token CBO
 %token CBC
 %token RBO
@@ -64,6 +64,30 @@ using namespace std;
 
 
 %%
+program :  aexpr
+| bexpr
+;
+aexpr : aexpr OP aexpr 
+| aexpr BITOP aexpr
+| ID
+| RBO aexpr RBC   
+| INT       
+| REAL         
+;
+
+bexpr : bexpr RELOP bexpr
+| bexpr LOGOP bexpr
+| STRING RELOP STRING
+| INT RELOP REAL
+| CHAR RELOP CHAR
+| CHAR RELOP INT
+| REAL RELOP INT
+| aexpr RELOP aexpr
+| ID RELOP ID
+| RBO bexpr RBC
+| TRUE
+| FALSE
+;
 
 %%
 
