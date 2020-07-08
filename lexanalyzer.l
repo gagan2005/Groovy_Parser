@@ -28,6 +28,7 @@ int colno=1;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return REAL;
 
 }
 [0-9]+  {
@@ -39,6 +40,7 @@ int colno=1;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n"; 
+	return INT;
 }
 \"[^\"]+\"    {
     Token t("STRING",yytext);
@@ -46,6 +48,7 @@ int colno=1;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return STRING;
 }
 
 \'[^\"]\' {
@@ -55,6 +58,7 @@ int colno=1;
 	yylval=t;
 	yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return CHAR;
 }
 
 
@@ -66,6 +70,7 @@ if  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return IF;
 }
 else   {
     Token t("ELSE");
@@ -73,6 +78,7 @@ else   {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return ELSE;
 }
 
 for    {
@@ -81,13 +87,16 @@ for    {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return FOR;
 }
+
 while   {
     Token t("WHILE");
     colno+=yyleng;
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return WHILE;
 }
 do  {
     Token t("DO");
@@ -95,6 +104,7 @@ do  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return DO;
 }
 switch  {
     Token t("SWITCH");
@@ -102,6 +112,7 @@ switch  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return SWITCH;
 }
 	
 return  {
@@ -110,6 +121,7 @@ return  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RET;
 }
 break	 { 
  	Token t("BREAK");
@@ -117,6 +129,7 @@ break	 {
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return BREAK;
  }
 true	 { 
  	Token t("TRUE");
@@ -124,6 +137,7 @@ true	 {
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return TRUE;
  }
 false	 { 
  	Token t("FALSE");
@@ -131,6 +145,7 @@ false	 {
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return FALSE;
  }
 null	 { 
  	Token t("NULL");
@@ -138,6 +153,7 @@ null	 {
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     return NULL;
  }
 case	 { 
  	Token t("CASE");
@@ -145,6 +161,7 @@ case	 {
  	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CASE;
  }
 goto	{
 	Token t("GOTO");
@@ -152,6 +169,7 @@ goto	{
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return GOTO;
  }
 import  {
 	Token t("IMPORT");
@@ -159,6 +177,7 @@ import  {
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return IMPORT;
  }
 void	{
 	Token t("VOID");
@@ -166,6 +185,7 @@ void	{
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return VOID;
  }
 continue {
 	Token t("CONTINUE");
@@ -173,6 +193,7 @@ continue {
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONTINUE;
  }
 static {
 	Token t("STATIC");
@@ -180,6 +201,7 @@ static {
 	yylval=t;
  	yylval.print();
      cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return STATIC;
  }
 default {	
 	Token t("DEFAULT");
@@ -187,6 +209,7 @@ default {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return DEFAULT;
  }
 println {
 	Token t("PRINTLN");
@@ -194,6 +217,7 @@ println {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return PRINTLN;
  }
 print   {
     Token t("PRINT");
@@ -201,6 +225,7 @@ print   {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return PRINT;
 }
 def {
 	Token t("DEF");
@@ -208,6 +233,7 @@ def {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return DEF;
  }
 in {
 	Token t("IN");
@@ -215,6 +241,7 @@ in {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return IN;
  }
 assert {
 	Token t("ASSERT");
@@ -222,6 +249,7 @@ assert {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return ASSERT;
  }
 volatile {
 	Token t("VOLATILE");
@@ -229,6 +257,7 @@ volatile {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return VOLATILE;
  }
 const {
 	Token t("CONST");
@@ -236,6 +265,7 @@ const {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONST;
  }
 console {
 	Token t("CONSOLE");
@@ -243,6 +273,7 @@ console {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return CONSOLE;
  }
 system {
 	Token t("SYSTEM");
@@ -250,6 +281,7 @@ system {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return SYSTEM;
  }
 ; {
 	Token t("TERMINATION");
@@ -257,6 +289,7 @@ system {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return TERMINATION;
 }
 : {
 	Token t("COLON");
@@ -264,6 +297,7 @@ system {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return COLON;
 }
 new {
 	Token t("NEW");
@@ -271,6 +305,7 @@ new {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return NEW;
  }
 newreader {
 	Token t("NEWREADER");
@@ -278,6 +313,7 @@ newreader {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+ 	return NEWREADER;
  }
 readline {
 	Token t("READLINE");
@@ -285,6 +321,7 @@ readline {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return READLINE;
 }
 \. {
 	Token t("DOT");
@@ -292,6 +329,7 @@ readline {
 	yylval=t;
     	yylval.print();
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return DOT;
 }
 
 %{ /* End of keyword Section */ %}
@@ -304,6 +342,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RELOP;
 }
 
 !\=  {
@@ -312,6 +351,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return RELOP;
 }
 
 \<\=  {
@@ -320,6 +360,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \>\=  {
@@ -328,6 +369,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \<  {
@@ -336,6 +378,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 \> {
@@ -344,6 +387,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
 }
 
 %{/* Operators Section */ %}
@@ -354,6 +398,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \- {
@@ -362,6 +407,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \* {
@@ -370,6 +416,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \/ {
@@ -378,6 +425,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return OP;
 }
 
 \% {
@@ -385,6 +433,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     yylval.print();
+    return OP;
 }
 
 %{/*Logical Operators Section */ %}
@@ -395,6 +444,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 \|\| {
@@ -403,6 +453,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 \! {
@@ -411,6 +462,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return LOGOP;
 }
 
 %{/* Bitwise Operators Section */ %}
@@ -421,6 +473,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \| {
@@ -429,6 +482,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \^ {
@@ -437,6 +491,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 \~ {
@@ -445,6 +500,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return BITOP;
 }
 
 %{/* Brackets Section */ %}
@@ -455,6 +511,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return CBO;
 }
 \}  {
     Token t("CURLY_BRACKET_C");
@@ -462,6 +519,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return CBC;
 }
 \(  {
     Token t("ROUND_BRACKET_O");
@@ -469,6 +527,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RBO;
 }
 \)  {
     Token t("ROUND_BRACKET_C");
@@ -476,6 +535,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RBC;
 }
 \[  {
     Token t("SQ_BRACKET_O");
@@ -483,6 +543,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return SBO;
 }
 \]  {
     Token t("SQ_BRACKET_C");
@@ -490,6 +551,7 @@ readline {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return SBC;
 }
 
 %{/* DATA TYPE Section */ %}
@@ -500,6 +562,7 @@ int {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 char    {
     Token t("DATA_TYPE","char");
@@ -507,6 +570,7 @@ char    {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 double  {
     Token t("DATA_TYPE","double");
@@ -514,6 +578,7 @@ double  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 float   {
     Token t("DATA_TYPE","float");
@@ -521,6 +586,7 @@ float   {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 Boolean {
     Token t("DATA_TYPE","Boolean");
@@ -528,6 +594,7 @@ Boolean {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 String  {
     Token t("DATA_TYPE","String");
@@ -535,6 +602,7 @@ String  {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 byte {
@@ -543,6 +611,7 @@ byte {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 short {
@@ -551,6 +620,7 @@ short {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 long {
@@ -559,6 +629,7 @@ long {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return DT;
 }
 
 enum {
@@ -567,6 +638,7 @@ enum {
 	yylval=t;
     	yylval.print();
         cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        return DT;
 }
 
 \/\/.* {
@@ -594,6 +666,7 @@ enum {
     yylval=t;
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return COMMA;
 }
 
 
@@ -610,6 +683,7 @@ enum {
     yylval.print();
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
     // return 1;
+    return ID;
 }
 
 %%
