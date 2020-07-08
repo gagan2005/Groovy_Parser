@@ -49,7 +49,7 @@ using namespace std;
 %token READLINE
 %token DOT
 %token RELOP
-%token OP
+%left OP
 %token LOGOP
 %token BITOP
 %token CBO
@@ -64,9 +64,6 @@ using namespace std;
 
 
 %%
-
-program : INT TERM
-;
 
 %%
 

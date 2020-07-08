@@ -1,3 +1,5 @@
+bison -d parser.y
 flex lexanalyzer.l
-g++ lex.yy.c
+g++ parser.tab.c lex.yy.c 
+
 
