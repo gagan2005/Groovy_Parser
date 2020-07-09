@@ -9,7 +9,9 @@ using namespace std;
     int yylex(void);
     void yyerror(char const *);
 %}
-%require "3.2"
+
+
+
 %token ID
 %token REAL
 %token INT
@@ -60,7 +62,9 @@ using namespace std;
 %token SBC
 %token DT
 %token COMMA
-
+%token AS
+%token EQ
+%token NEWLINE
 
 
 %%
@@ -96,6 +100,41 @@ bexprterm : ID
 | STRING
 ;
 
+/*var declare,assign,input*/
+stmt: varDeclare  
+| varAssign
+| input
+;
+varDeclare: DT ID E F {printf("declaration");}
+| DT ID EQ val E F {printf("declaration");}
+| DT ID EQ expr E F {printf("declaration");}
+| DEF ID EQ val E F {printf("declaration");}
+| DEF ID E F {printf("declaration");}
+;
+E: {}
+|  COMMA ID E 
+|  COMMA ID EQ val E 
+|  COMMA ID EQ expr E
+;
+varAssign: ID EQ val F {printf("assign");}
+| ID EQ expr F {printf("assign");}
+;
+input: DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
+| DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
+| DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC F {printf("input");}
+| DEF ID EQ ID DOT READLINE RBO RBC F {printf("input");}
+| ID EQ ID DOT READLINE RBO RBC F {printf("input");}
+| SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC {printf("input");}
+| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
+| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
+;
+val: CHAR |REAL | INT | STRING 
+;
+expr: INT '+' INT   {printf("test\n");}
+;
+F: NEWLINE 
+| TERM;
+/*grammar written by devansh*/
 %%
 
 void yyerror(char const *s)  

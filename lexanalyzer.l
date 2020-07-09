@@ -19,7 +19,7 @@ int colno=1;
 %}
 %option noyywrap
 %%
-\n  {lineno++;colno=1;}
+\n  {lineno++;colno=1; return NEWLINE;}
 [ ] {colno++;}
 [0-9]+\.[0-9]+  {
     
@@ -277,7 +277,7 @@ console {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return CONSOLE;
  }
-system {
+System {
 	token t("SYSTEM");
 	colno+=yyleng;
 	yylval=t;
@@ -309,7 +309,7 @@ new {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return NEW;
  }
-newreader {
+newReader {
 	token t("NEWREADER");
 	colno+=yyleng;
 	yylval=t;
@@ -317,13 +317,21 @@ newreader {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return NEWREADER;
  }
-readline {
+readLine {
 	token t("READLINE");
 	colno+=yyleng;
 	yylval=t;
     	
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 	return READLINE;
+}
+as {
+	token t("AS");
+	colno+=yyleng;
+	yylval=t;
+    	
+    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return AS;
 }
 \. {
 	token t("DOT");
@@ -339,6 +347,15 @@ readline {
 %{/* Relational Operators Section */ %}
 
 \=   {
+    token t("EQ");
+    colno+=yyleng;
+    yylval=t;
+    
+    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+	return EQ;
+}
+
+!\=  {
     token t("RELOP",1);
     colno+=yyleng;
     yylval=t;
@@ -347,17 +364,8 @@ readline {
 	return RELOP;
 }
 
-!\=  {
-    token t("RELOP",2);
-    colno+=yyleng;
-    yylval=t;
-    
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-	return RELOP;
-}
-
 \<\=  {
-    token t("RELOP",3);
+    token t("RELOP",2);
     colno+=yyleng;
     yylval=t;
     
@@ -366,7 +374,7 @@ readline {
 }
 
 \>\=  {
-    token t("RELOP",4);
+    token t("RELOP",3);
     colno+=yyleng;
     yylval=t;
     
@@ -375,7 +383,7 @@ readline {
 }
 
 \<  {
-    token t("RELOP",5);
+    token t("RELOP",4);
     colno+=yyleng;
     yylval=t;
     
@@ -384,7 +392,7 @@ readline {
 }
 
 \> {
-    token t("RELOP",6);
+    token t("RELOP",5);
     colno+=yyleng;
     yylval=t;
     
