@@ -76,18 +76,18 @@ aexpr_ : aexpr_ OP aexpr_
 | aexpr_ BITOP aexpr_ 
 | aexprterm
 | RBO aexprterm RBC
+;
 aexprterm : INT
 | REAL
-| ID
 ;
 bexpr : bexpr_ RELOP bexpr_
 | bexpr_ LOGOP bexpr_
+| RBO bexpr RBC
+| aexpr RELOP aexpr
 ;
 bexpr_: bexpr_ RELOP bexpr_ 
 | bexpr_ LOGOP bexpr_
 | bexprterm
-| aexpr
-| RBO bexprterm RBC
 ;
 bexprterm : ID
 | TRUE
@@ -96,8 +96,6 @@ bexprterm : ID
 | STRING
 ;
 
-
-whilestmt : WHILE RBO bexpr
 %%
 
 void yyerror(char const *s)  
