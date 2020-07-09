@@ -70,7 +70,7 @@ using namespace std;
 %%
 program :  program aexpr TERM
 | program bexpr TERM
-|
+| stmt
 ;
 aexpr : aexpr_ OP aexpr_ {cout<<"ARthimetic exp found\n";}
 | aexpr_ BITOP aexpr_   
@@ -83,6 +83,7 @@ aexpr_ : aexpr_ OP aexpr_
 ;
 aexprterm : INT
 | REAL
+| ID
 ;
 bexpr : bexpr_ RELOP bexpr_
 | bexpr_ LOGOP bexpr_
@@ -119,14 +120,16 @@ E: {}
 varAssign: ID EQ val F {printf("assign");}
 | ID EQ expr F {printf("assign");}
 ;
-input: DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
+input: DEF ID EQ infunction F {printf("input");}
+| DEF ID EQ infunction AS  DT F {printf("input");}
 | DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC F {printf("input");}
 | DEF ID EQ ID DOT READLINE RBO RBC F {printf("input");}
 | ID EQ ID DOT READLINE RBO RBC F {printf("input");}
-| SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC {printf("input");}
-| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
+| infunction {printf("input");}
+| ID EQ infunction F {printf("input");}
+| ID EQ infunction AS  DT F {printf("input");}
+;
+infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
 val: CHAR |REAL | INT | STRING 
 ;
