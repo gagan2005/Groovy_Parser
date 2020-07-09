@@ -64,7 +64,6 @@ using namespace std;
 
 
 %%
-<<<<<<< HEAD
 
 // Grammer BY Swapnil
 S: ret | println | print | import |const;
@@ -87,7 +86,8 @@ t :  ID DOT t | ID DOT * | ID
 //constant 
 const : CONST ID RELOP p TERM
 p: INT | CHAR | STRING | TRUE | FALSE
-=======
+
+
 program :  program aexpr TERM
 | program bexpr TERM
 | stmt
@@ -158,16 +158,11 @@ expr: INT '+' INT   {printf("test\n");}
 F: NEWLINE 
 | TERM;
 /*grammar written by devansh*/
->>>>>>> 4cc1805967a8904b4021a387e4d18970617fe7b0
 %%
 
 void yyerror(char const *s)  
 {  
-<<<<<<< HEAD
  printf("\nError\n");  
-=======
- printf("\nSyntax Error\n");  
->>>>>>> 4cc1805967a8904b4021a387e4d18970617fe7b0
 }
 int main()
 {
