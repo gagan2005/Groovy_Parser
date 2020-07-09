@@ -64,36 +64,45 @@ using namespace std;
 
 
 %%
-program :  aexpr
-| bexpr
+program :  program aexpr TERM
+| program bexpr TERM
+|
 ;
-aexpr : aexpr OP aexpr 
-| aexpr BITOP aexpr
+aexpr : aexpr_ OP aexpr_ {cout<<"ARthimetic exp found\n";}
+| aexpr_ BITOP aexpr_   
+| RBO aexpr RBC    
+;
+aexpr_ : aexpr_ OP aexpr_
+| aexpr_ BITOP aexpr_ 
+| aexprterm
+| RBO aexprterm RBC
+aexprterm : INT
+| REAL
 | ID
-| RBO aexpr RBC   
-| INT       
-| REAL         
 ;
-
-bexpr : bexpr RELOP bexpr
-| bexpr LOGOP bexpr
-| STRING RELOP STRING
-| INT RELOP REAL
-| CHAR RELOP CHAR
-| CHAR RELOP INT
-| REAL RELOP INT
-| aexpr RELOP aexpr
-| ID RELOP ID
-| RBO bexpr RBC
+bexpr : bexpr_ RELOP bexpr_
+| bexpr_ LOGOP bexpr_
+;
+bexpr_: bexpr_ RELOP bexpr_ 
+| bexpr_ LOGOP bexpr_
+| bexprterm
+| aexpr
+| RBO bexprterm RBC
+;
+bexprterm : ID
 | TRUE
 | FALSE
+| INT
+| STRING
 ;
 
+
+whilestmt : WHILE RBO bexpr
 %%
 
 void yyerror(char const *s)  
 {  
- printf("\nError\n");  
+ printf("\nSyntax Error\n");  
 }
 int main()
 {
