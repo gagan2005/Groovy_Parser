@@ -19,7 +19,7 @@ int colno=1;
 %}
 %option noyywrap
 %%
-\n  {lineno++;colno=1; return NEWLINE;}
+\n  {lineno++;colno=1;}
 [ ] {colno++;}
 [0-9]+\.[0-9]+  {
     
@@ -277,7 +277,7 @@ console {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return CONSOLE;
  }
-System {
+system {
 	token t("SYSTEM");
 	colno+=yyleng;
 	yylval=t;
@@ -309,7 +309,7 @@ new {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return NEW;
  }
-newReader {
+newreader {
 	token t("NEWREADER");
 	colno+=yyleng;
 	yylval=t;
@@ -317,21 +317,13 @@ newReader {
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
  	return NEWREADER;
  }
-readLine {
+readline {
 	token t("READLINE");
 	colno+=yyleng;
 	yylval=t;
     	
     	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
 	return READLINE;
-}
-as {
-	token t("AS");
-	colno+=yyleng;
-	yylval=t;
-    	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-	return AS;
 }
 \. {
 	token t("DOT");
@@ -347,15 +339,6 @@ as {
 %{/* Relational Operators Section */ %}
 
 \=   {
-    token t("EQ");
-    colno+=yyleng;
-    yylval=t;
-    
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-	return EQ;
-}
-
-!\=  {
     token t("RELOP",1);
     colno+=yyleng;
     yylval=t;
@@ -364,16 +347,16 @@ as {
 	return RELOP;
 }
 
-\<\=  {
+!\=  {
     token t("RELOP",2);
     colno+=yyleng;
     yylval=t;
     
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-    return RELOP;
+	return RELOP;
 }
 
-\>\=  {
+\<\=  {
     token t("RELOP",3);
     colno+=yyleng;
     yylval=t;
@@ -382,7 +365,7 @@ as {
     return RELOP;
 }
 
-\<  {
+\>\=  {
     token t("RELOP",4);
     colno+=yyleng;
     yylval=t;
@@ -391,8 +374,17 @@ as {
     return RELOP;
 }
 
-\> {
+\<  {
     token t("RELOP",5);
+    colno+=yyleng;
+    yylval=t;
+    
+    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    return RELOP;
+}
+
+\> {
+    token t("RELOP",6);
     colno+=yyleng;
     yylval=t;
     
@@ -403,12 +395,12 @@ as {
 %{/* Operators Section */ %}
 
 \+ {
-    token t("OP",1);
+    token t("PLUS",1);
     colno+=yyleng;
     yylval=t;
     
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-    return OP;
+    return PLUS;
 }
 
 \- {

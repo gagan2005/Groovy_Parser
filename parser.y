@@ -10,8 +10,6 @@ using namespace std;
     void yyerror(char const *);
 %}
 
-
-
 %token ID
 %token REAL
 %token INT
@@ -62,52 +60,37 @@ using namespace std;
 %token SBC
 %token DT
 %token COMMA
-%token AS
-%token EQ
-%token NEWLINE
+%left PLUS
 
 
 %%
-/*var declare,assign,input*/
-stmt: varDeclare  
-| varAssign
-| input
-;
-varDeclare: DT ID E F {printf("declaration");}
-| DT ID EQ val E F {printf("declaration");}
-| DT ID EQ expr E F {printf("declaration");}
-| DEF ID EQ val E F {printf("declaration");}
-| DEF ID E F {printf("declaration");}
-;
-E: {}
-|  COMMA ID E 
-|  COMMA ID EQ val E 
-|  COMMA ID EQ expr E
-;
-varAssign: ID EQ val F {printf("assign");}
-| ID EQ expr F {printf("assign");}
-;
-input: DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| DEF ID EQ ID DOT READLINE RBO RBC F {printf("input");}
-| ID EQ ID DOT READLINE RBO RBC F {printf("input");}
-| SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC {printf("input");}
-| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| ID EQ SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC AS  DT F {printf("input");}
-;
-val: CHAR |REAL | INT | STRING 
-;
-expr: INT '+' INT   {printf("test\n");}
-;
-F: NEWLINE 
-| TERM;
-/*grammar written by devansh*/
+
+// Grammer BY Swapnil
+S: ret | println | print | import |const;
+// Grammer for RETURN statement
+ret : RET expr TERM | RET TERM
+expr : INT | CHAR
+// Grammer for PRINT statement
+
+println : PRINTLN  e TERM 
+e : e PLUS e | STRING | INT | CHAR | REAL |  TRUE | FALSE | ID 
+
+// Grammer for PRINTLN statement
+print : PRINT f TERM
+f : f PLUS f | STRING | INT | CHAR | REAL |  TRUE | FALSE | ID 
+
+// Grammer for IMPORT statement
+import :  IMPORT t TERM
+t :  ID DOT t | ID DOT * | ID
+
+//constant 
+const : CONST ID RELOP p TERM
+p: INT | CHAR | STRING | TRUE | FALSE
 %%
 
 void yyerror(char const *s)  
 {  
- printf("\nError: %s\n",s);  
+ printf("\nError\n");  
 }
 int main()
 {
