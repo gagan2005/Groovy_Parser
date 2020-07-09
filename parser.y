@@ -66,22 +66,45 @@ using namespace std;
 %%
 
 // Grammer BY Swapnil
-S: ret | println | print | import |const;
+S: ret F
+	| println F 
+	| print F
+	| import F
+	| const F;
 // Grammer for RETURN statement
 ret : RET expr TERM | RET TERM
-expr : INT | CHAR
 // Grammer for PRINT statement
 
 println : PRINTLN  e TERM 
-e : e PLUS e | STRING | INT | CHAR | REAL |  TRUE | FALSE | ID 
+e : e PLUS e 
+	| STRING 
+	| INT 
+	| CHAR 
+	| REAL 
+	| TRUE 
+	| FALSE 
+	| aexpr 
+	| bexpr 
+	| ID 
 
 // Grammer for PRINTLN statement
 print : PRINT f TERM
-f : f PLUS f | STRING | INT | CHAR | REAL |  TRUE | FALSE | ID 
+f : f PLUS f 
+	| STRING 
+	| INT 
+	| CHAR 
+	| REAL 
+	| TRUE 
+	| FALSE 
+	| aexpr 
+	| bexpr 
+	| ID 
 
 // Grammer for IMPORT statement
 import :  IMPORT t TERM
-t :  ID DOT t | ID DOT * | ID
+t :  ID DOT t
+    | ID DOT '*' 
+    | ID F
 
 //constant 
 const : CONST ID RELOP p TERM
