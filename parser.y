@@ -74,8 +74,6 @@ extern int colno;
 
 
 %%
-//while loop statement
-while : WHILE RBO expr RBC CBO sstmts CBC
 
 sstmts : sstmt sstmts
 | cstmt sstmts
@@ -92,7 +90,12 @@ sstmt:  varDeclare
 | const 	
 | expr
 | termination
+| forloop
+;
 
+//while loop statement
+while : WHILE RBO expr RBC CBO sstmts CBC
+;
 cstmt : ifstmt      {cout<<"A compound statement found\n";}
     |   while
 ; 
@@ -160,14 +163,49 @@ infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
 expr: aexpr
 | bexpr
-
-
 ;
 
 
+/*forloop, forin loop*/
+forloop: FOR RBO forstmt RBC  forpart {printf("for");} 
+;
+forpart: CBO sstmts CBC
+| sstmt
+;
+forstmt: a TERM  b TERM c 
+| var IN var
+;
+a:
+| var EQ terms
+| DT var EQ terms
+;
+b:
+| bexpr
+;
+c:
+| incdec
+| varAssign
+;
+var: ID
+| ID SBO INT SBC F
+| ID SBO SBC
+; 
+F: 
+| SBO SBC F
+| SBO INT SBC F
+;
+incdec: var PLUS PLUS
+| var MIN MIN
+;
+
+/*grammar written by devansh*/
+
+
+/*
 fundef : DT ID RBO varAssign RBC CBO sstmts CBC
 | DEF ID RBO varAssign RBC CBO sstmts CBC
 ;
+*/
 ifstmt : IF RBO expr RBC then       %prec NOELSE  {cout<<"Simple if statement found\n";}
 | IF RBO expr RBC then ELSE then                 {cout<<" if/else statement found\n";}
 | IF RBO expr RBC then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
@@ -222,7 +260,7 @@ bexpr_: bexpr_ RELOP bexpr_
 /* All terms */
 terms : INT
 | REAL
-| ID
+| var
 | TRUE
 | FALSE
 | STRING
