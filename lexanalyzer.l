@@ -19,7 +19,7 @@ int colno=1;
 %}
 %option noyywrap
 %%
-\n  {lineno++;colno=1;}
+\n  {lineno++;colno=1; return NEWLINE;}
 [ ] {colno++;}
 [0-9]+\.[0-9]+  {
     
@@ -338,7 +338,7 @@ readline {
 
 %{/* Relational Operators Section */ %}
 
-\=   {
+\=\=  {
     token t("RELOP",1);
     colno+=yyleng;
     yylval=t;
@@ -409,7 +409,7 @@ readline {
     yylval=t;
     
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-    return OP;
+    return MIN;
 }
 
 \* {
@@ -418,7 +418,7 @@ readline {
     yylval=t;
     
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-    return OP;
+    return MUL;
 }
 
 \/ {
@@ -427,7 +427,7 @@ readline {
     yylval=t;
     
     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
-    return OP;
+    return DIV;
 }
 
 \% {
@@ -435,7 +435,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    return OP;
+    return MOD;
 }
 
 %{/*Logical Operators Section */ %}
@@ -671,6 +671,10 @@ enum {
     return COMMA;
 }
 
+\a\s  {
+	return AS;
+}
+
 
 [a-zA-Z\$_][a-zA-Z0-9]*  {
    
@@ -688,6 +692,11 @@ enum {
     return ID;
 }
 
+
+\=  {
+    token t("EQ");
+    return EQ;
+}
 
 %%
 // int main()

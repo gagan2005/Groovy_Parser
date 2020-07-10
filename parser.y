@@ -71,17 +71,18 @@ using namespace std;
 
 
 %%
-
+sstmts : sstmt sstmts
+| sstmt
 /* This list all the single line statements */
-sstmt: 
-| varDeclare  
+sstmt:  varDeclare  
 | varAssign
 | input
 | ret 
 | println
 | print 
 | import 
-| const 
+| const 	
+| expr
 | termination
 ; 
 
@@ -89,39 +90,22 @@ sstmt:
 /* Grammer for RETURN statement */
 ret : RET comp termination 
 ;
-comp : ID
+comp :
 | aexpr
 | bexpr
-| INT | REAL | STRING | CHAR | TRUE | FALSE 
-|
+| terms
+
 ;
 
 // Grammer for PRINT statement
 
-println : PRINTLN  e termination 
-e : e PLUS e 
-	| STRING 
-	| INT 
-	| CHAR 
-	| REAL 
-	| TRUE 
-	| FALSE 
-	| aexpr 
-	| bexpr 
-	| ID 
+println : PRINTLN aexpr termination 
+|PRINTLN terms termination
+
 
 // Grammer for PRINTLN statement
-print : PRINT f termination
-f : f PLUS f 
-	| STRING 
-	| INT 
-	| CHAR 
-	| REAL 
-	| TRUE 
-	| FALSE 
-	| aexpr 
-	| bexpr 
-	| ID 
+print : PRINT aexpr termination
+|PRINT terms termination
 
 // Grammer for IMPORT statement
 import :  IMPORT t termination
@@ -130,23 +114,23 @@ t :  ID DOT t
     | ID termination
 
 //constant 
-const : CONST ID RELOP p termination
-p: INT | CHAR | STRING | TRUE | FALSE
+const : CONST ID EQ terms termination
 
 /*var declare,assign,input*/
 
 varDeclare: DT ID E termination {printf("declaration");}
-| DT ID EQ val E termination {printf("declaration");}
+| DT ID EQ terms E termination {printf("declaration");}
 | DT ID EQ expr E termination {printf("declaration");}
-| DEF ID EQ val E termination {printf("declaration");}
+| DEF ID EQ terms E termination {printf("declaration");}
+| DEF ID EQ expr E termination
 | DEF ID E termination {printf("declaration");}
 ;
 E: {}
 |  COMMA ID E 
-|  COMMA ID EQ val E 
+|  COMMA ID EQ terms E 
 |  COMMA ID EQ expr E
 ;
-varAssign: ID EQ val termination {printf("assign");}
+varAssign: ID EQ terms termination {printf("assign");}
 | ID EQ expr termination {printf("assign");}
 ;
 input: DEF ID EQ infunction termination {printf("input");}
@@ -160,31 +144,24 @@ input: DEF ID EQ infunction termination {printf("input");}
 ;
 infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
-val: CHAR |REAL | INT | STRING 
 ;
-expr: INT '+' INT   {printf("test\n");}
+expr: aexpr
+| bexpr
 ;
 incdec : ID '+''+'
 | ID '-''-'
 
 /* Boolean and ARthimetic Expressions */
-expr : aexpr
-| bexpr
-;
+
 aexpr : aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
 | aexpr_ BITOP aexpr_   
 | RBO aexpr RBC    
 ;
-aexpr_ : aexpr_ op aexpr_
-| aexpr_ BITOP aexpr_ 
-| aexprtermination
-| RBO aexprtermination RBC
+aexpr_ : terms
 ;
-aexprtermination : INT
-| REAL
-| ID
+op : PLUS | MIN | DIV | MUL
+
 ;
-op : MIN | PLUS | DIV | MUL ;
 bexpr : bexpr_ RELOP bexpr_
 | bexpr_ LOGOP bexpr_
 | RBO bexpr RBC
@@ -192,17 +169,28 @@ bexpr : bexpr_ RELOP bexpr_
 ;
 bexpr_: bexpr_ RELOP bexpr_ 
 | bexpr_ LOGOP bexpr_
-| bexprtermination
+| terms
 ;
-bexprtermination : ID
+
+
+
+
+
+
+/* Terms Section */
+/* This section defines different terms */
+/* All terms */
+terms : INT
+| REAL
+| ID
 | TRUE
 | FALSE
-| INT
 | STRING
 ;
 
-termination : NEWLINE 
-| TERM;
+termination : NEWLINE {cout<<"Newline fourn";}
+| TERM	{cout<<"Termination fournd";}
+;
 /*grammar written by devansh*/
 %%
 
