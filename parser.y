@@ -49,7 +49,6 @@ using namespace std;
 %token READLINE
 %token DOT
 %left RELOP
-%left OP
 %left LOGOP
 %left BITOP
 %token CBO
@@ -61,21 +60,45 @@ using namespace std;
 %token DT
 %token COMMA
 %left PLUS
+%left MIN
+%left MUL
+%right EQ
+%left DIV
+%token NEWLINE
+%token AS
+%right MOD
+
 
 
 %%
 
-// Grammer BY Swapnil
-S: ret F
-	| println F 
-	| print F
-	| import F
-	| const F;
-// Grammer for RETURN statement
-ret : RET expr TERM | RET TERM
+/* This list all the single line statements */
+sstmt: 
+| varDeclare  
+| varAssign
+| input
+| ret 
+| println
+| print 
+| import 
+| const 
+| termination
+; 
+
+
+/* Grammer for RETURN statement */
+ret : RET comp termination 
+;
+comp : ID
+| aexpr
+| bexpr
+| INT | REAL | STRING | CHAR | TRUE | FALSE 
+|
+;
+
 // Grammer for PRINT statement
 
-println : PRINTLN  e TERM 
+println : PRINTLN  e termination 
 e : e PLUS e 
 	| STRING 
 	| INT 
@@ -88,7 +111,7 @@ e : e PLUS e
 	| ID 
 
 // Grammer for PRINTLN statement
-print : PRINT f TERM
+print : PRINT f termination
 f : f PLUS f 
 	| STRING 
 	| INT 
@@ -101,76 +124,39 @@ f : f PLUS f
 	| ID 
 
 // Grammer for IMPORT statement
-import :  IMPORT t TERM
+import :  IMPORT t termination
 t :  ID DOT t
-    | ID DOT '*' 
-    | ID F
+    | ID DOT MUL
+    | ID termination
 
 //constant 
-const : CONST ID RELOP p TERM
+const : CONST ID RELOP p termination
 p: INT | CHAR | STRING | TRUE | FALSE
 
-
-program :  program aexpr TERM
-| program bexpr TERM
-| stmt
-;
-aexpr : aexpr_ OP aexpr_ {cout<<"ARthimetic exp found\n";}
-| aexpr_ BITOP aexpr_   
-| RBO aexpr RBC    
-;
-aexpr_ : aexpr_ OP aexpr_
-| aexpr_ BITOP aexpr_ 
-| aexprterm
-| RBO aexprterm RBC
-;
-aexprterm : INT
-| REAL
-| ID
-;
-bexpr : bexpr_ RELOP bexpr_
-| bexpr_ LOGOP bexpr_
-| RBO bexpr RBC
-| aexpr RELOP aexpr
-;
-bexpr_: bexpr_ RELOP bexpr_ 
-| bexpr_ LOGOP bexpr_
-| bexprterm
-;
-bexprterm : ID
-| TRUE
-| FALSE
-| INT
-| STRING
-;
-
 /*var declare,assign,input*/
-stmt: varDeclare  
-| varAssign
-| input
-;
-varDeclare: DT ID E F {printf("declaration");}
-| DT ID EQ val E F {printf("declaration");}
-| DT ID EQ expr E F {printf("declaration");}
-| DEF ID EQ val E F {printf("declaration");}
-| DEF ID E F {printf("declaration");}
+
+varDeclare: DT ID E termination {printf("declaration");}
+| DT ID EQ val E termination {printf("declaration");}
+| DT ID EQ expr E termination {printf("declaration");}
+| DEF ID EQ val E termination {printf("declaration");}
+| DEF ID E termination {printf("declaration");}
 ;
 E: {}
 |  COMMA ID E 
 |  COMMA ID EQ val E 
 |  COMMA ID EQ expr E
 ;
-varAssign: ID EQ val F {printf("assign");}
-| ID EQ expr F {printf("assign");}
+varAssign: ID EQ val termination {printf("assign");}
+| ID EQ expr termination {printf("assign");}
 ;
-input: DEF ID EQ infunction F {printf("input");}
-| DEF ID EQ infunction AS  DT F {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC F {printf("input");}
-| DEF ID EQ ID DOT READLINE RBO RBC F {printf("input");}
-| ID EQ ID DOT READLINE RBO RBC F {printf("input");}
+input: DEF ID EQ infunction termination {printf("input");}
+| DEF ID EQ infunction AS  DT termination {printf("input");}
+| DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC termination {printf("input");}
+| DEF ID EQ ID DOT READLINE RBO RBC termination {printf("input");}
+| ID EQ ID DOT READLINE RBO RBC termination {printf("input");}
 | infunction {printf("input");}
-| ID EQ infunction F {printf("input");}
-| ID EQ infunction AS  DT F {printf("input");}
+| ID EQ infunction termination {printf("input");}
+| ID EQ infunction AS  DT termination {printf("input");}
 ;
 infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
@@ -178,7 +164,44 @@ val: CHAR |REAL | INT | STRING
 ;
 expr: INT '+' INT   {printf("test\n");}
 ;
-F: NEWLINE 
+incdec : ID '+''+'
+| ID '-''-'
+
+/* Boolean and ARthimetic Expressions */
+expr : aexpr
+| bexpr
+;
+aexpr : aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
+| aexpr_ BITOP aexpr_   
+| RBO aexpr RBC    
+;
+aexpr_ : aexpr_ op aexpr_
+| aexpr_ BITOP aexpr_ 
+| aexprtermination
+| RBO aexprtermination RBC
+;
+aexprtermination : INT
+| REAL
+| ID
+;
+op : MIN | PLUS | DIV | MUL ;
+bexpr : bexpr_ RELOP bexpr_
+| bexpr_ LOGOP bexpr_
+| RBO bexpr RBC
+| aexpr RELOP aexpr
+;
+bexpr_: bexpr_ RELOP bexpr_ 
+| bexpr_ LOGOP bexpr_
+| bexprtermination
+;
+bexprtermination : ID
+| TRUE
+| FALSE
+| INT
+| STRING
+;
+
+termination : NEWLINE 
 | TERM;
 /*grammar written by devansh*/
 %%
