@@ -74,6 +74,9 @@ extern int colno;
 
 
 %%
+//while loop statement
+while : WHILE RBO expr RBC CBO sstmts CBC
+
 sstmts : sstmt sstmts
 | cstmt sstmts
 | sstmt
@@ -91,6 +94,7 @@ sstmt:  varDeclare
 | termination
 
 cstmt : ifstmt      {cout<<"A compound statement found\n";}
+    |   while
 ; 
 
 
@@ -115,10 +119,12 @@ print : PRINT aexpr termination
 |PRINT terms termination
 
 // Grammer for IMPORT statement
-import :  IMPORT t termination
+import :  IMPORT t termination | IMPORT STATIC t 
 t :  ID DOT t
     | ID DOT MUL
     | ID termination
+    | ID AS ID
+
 
 //constant 
 const : CONST ID EQ terms termination
