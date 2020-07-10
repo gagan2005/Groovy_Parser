@@ -148,8 +148,6 @@ infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 expr: aexpr
 | bexpr
 ;
-incdec : ID '+''+'
-| ID '-''-'
 
 /* Boolean and ARthimetic Expressions */
 
