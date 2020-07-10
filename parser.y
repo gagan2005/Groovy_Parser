@@ -8,6 +8,8 @@ using namespace std;
     int yyparse(void);
     int yylex(void);
     void yyerror(char const *);
+extern int lineno;
+extern int colno;
 %}
 
 %token ID
@@ -16,7 +18,6 @@ using namespace std;
 %token STRING
 %token CHAR
 %token IF
-%token ELSE
 %token FOR
 %token WHILE
 %token DO
@@ -68,11 +69,15 @@ using namespace std;
 %token AS
 %right MOD
 
+%nonassoc NOELSE
+%nonassoc ELSE
 
 
 %%
 sstmts : sstmt sstmts
+| cstmt sstmts
 | sstmt
+| cstmt     
 /* This list all the single line statements */
 sstmt:  varDeclare  
 | varAssign
@@ -84,6 +89,8 @@ sstmt:  varDeclare
 | const 	
 | expr
 | termination
+
+cstmt : ifstmt      {cout<<"A compound statement found\n";}
 ; 
 
 
@@ -147,6 +154,35 @@ infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
 expr: aexpr
 | bexpr
+
+
+;
+
+
+fundef : DT ID RBO varAssign RBC CBO sstmts CBC
+| DEF ID RBO varAssign RBC CBO sstmts CBC
+;
+ifstmt : IF RBO expr RBC then       %prec NOELSE  {cout<<"Simple if statement found\n";}
+| IF RBO expr RBC then ELSE then                 {cout<<" if/else statement found\n";}
+| IF RBO expr RBC then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
+
+// ;
+// | ifstmt elsestmt
+// ;
+// elseifstmt: ELSE ifstmt
+// ifelseifstmt : ifstmt elseifs elsestmt
+// ;
+// elseifs : elseifs elseifstmt 
+// |
+// | elseifstmt
+// ifstmt : IF RBO bexpr RBC then
+// | IF RBO TRUE RBC then
+// | IF RBO FALSE RBC then
+// ;
+// elsestmt : ELSE then
+// ;
+then : CBO sstmts CBC 
+| sstmt
 ;
 
 /* Boolean and ARthimetic Expressions */
@@ -194,7 +230,7 @@ termination : NEWLINE {cout<<"Newline fourn";}
 
 void yyerror(char const *s)  
 {  
- printf("\nError\n");  
+ printf("\nError at line no -%d and colno%d\n",lineno,colno);  
 }
 int main()
 {
