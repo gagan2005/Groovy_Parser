@@ -29,7 +29,7 @@ int colno=1;
     token t("REAL",i);                          
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return REAL;
 
 }
@@ -41,7 +41,7 @@ int colno=1;
     token t("INT",i);                          
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n"; 
+     
 	return INT;
 }
 \"[^\"]+\"    {
@@ -49,7 +49,7 @@ int colno=1;
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return STRING;
 }
 
@@ -59,7 +59,7 @@ int colno=1;
 	colno+=yyleng;
 	yylval=t;
 	
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return CHAR;
 }
 
@@ -71,7 +71,7 @@ if  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return IF;
 }
 else   {
@@ -79,7 +79,7 @@ else   {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return ELSE;
 }
 
@@ -88,7 +88,7 @@ for    {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return FOR;
 }
 
@@ -97,7 +97,7 @@ while   {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return WHILE;
 }
 do  {
@@ -105,7 +105,7 @@ do  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return DO;
 }
 switch  {
@@ -113,7 +113,7 @@ switch  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return SWITCH;
 }
 	
@@ -122,7 +122,7 @@ return  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return RET;
 }
 break	 { 
@@ -130,7 +130,7 @@ break	 {
  	colno+=yyleng;
  	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return BREAK;
  }
 true	 { 
@@ -138,7 +138,7 @@ true	 {
  	colno+=yyleng;
  	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
      return TRUE;
  }
 false	 { 
@@ -146,7 +146,7 @@ false	 {
  	colno+=yyleng;
  	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
      return FALSE;
  }
 null	 { 
@@ -154,7 +154,7 @@ null	 {
  	colno+=yyleng;
  	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
      return _NULL;
  }
 case	 { 
@@ -162,7 +162,7 @@ case	 {
  	colno+=yyleng;
  	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return CASE;
  }
 goto	{
@@ -170,7 +170,7 @@ goto	{
 	colno+=yyleng;
 	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return GOTO;
  }
 import  {
@@ -178,7 +178,7 @@ import  {
 	colno+=yyleng;
 	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return IMPORT;
  }
 void	{
@@ -186,7 +186,7 @@ void	{
 	colno+=yyleng;
 	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return VOID;
  }
 continue {
@@ -194,7 +194,7 @@ continue {
 	colno+=yyleng;
 	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return CONTINUE;
  }
 static {
@@ -202,7 +202,7 @@ static {
 	colno+=yyleng;
 	yylval=t;
  	
-     cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+     
  	return STATIC;
  }
 default {	
@@ -210,7 +210,7 @@ default {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
  	return DEFAULT;
  }
 println {
@@ -218,7 +218,7 @@ println {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
  	return PRINTLN;
  }
 print   {
@@ -226,7 +226,7 @@ print   {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
 	return PRINT;
 }
 def {
@@ -234,7 +234,7 @@ def {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
  	return DEF;
  }
 in {
@@ -242,7 +242,7 @@ in {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
  	return IN;
  }
 assert {
@@ -250,7 +250,7 @@ assert {
 	colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
  	return ASSERT;
  }
 volatile {
@@ -258,7 +258,7 @@ volatile {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return VOLATILE;
  }
 const {
@@ -266,7 +266,7 @@ const {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return CONST;
  }
 console {
@@ -274,7 +274,7 @@ console {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return CONSOLE;
  }
 system {
@@ -282,7 +282,7 @@ system {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return SYSTEM;
  }
 ; {
@@ -290,7 +290,7 @@ system {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
 	return TERM;
 }
 : {
@@ -298,7 +298,7 @@ system {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
 	return COLON;
 }
 new {
@@ -306,7 +306,7 @@ new {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return NEW;
  }
 newreader {
@@ -314,7 +314,7 @@ newreader {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
  	return NEWREADER;
  }
 readline {
@@ -322,7 +322,7 @@ readline {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
 	return READLINE;
 }
 \. {
@@ -330,7 +330,7 @@ readline {
 	colno+=yyleng;
 	yylval=t;
     	
-    	 cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    	 
 	return DOT;
 }
 
@@ -343,7 +343,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return RELOP;
 }
 
@@ -352,7 +352,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
 	return RELOP;
 }
 
@@ -361,7 +361,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RELOP;
 }
 
@@ -370,7 +370,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RELOP;
 }
 
@@ -379,7 +379,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RELOP;
 }
 
@@ -388,7 +388,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RELOP;
 }
 
@@ -399,7 +399,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return PLUS;
 }
 
@@ -408,7 +408,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return MIN;
 }
 
@@ -417,7 +417,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return MUL;
 }
 
@@ -426,7 +426,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DIV;
 }
 
@@ -445,7 +445,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return LOGOP;
 }
 
@@ -454,7 +454,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return LOGOP;
 }
 
@@ -463,7 +463,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return LOGOP;
 }
 
@@ -474,7 +474,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return BITOP;
 }
 
@@ -483,7 +483,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return BITOP;
 }
 
@@ -492,7 +492,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return BITOP;
 }
 
@@ -501,7 +501,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return BITOP;
 }
 
@@ -512,7 +512,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return CBO;
 }
 \}  {
@@ -520,7 +520,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return CBC;
 }
 \(  {
@@ -528,7 +528,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RBO;
 }
 \)  {
@@ -536,7 +536,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return RBC;
 }
 \[  {
@@ -544,7 +544,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return SBO;
 }
 \]  {
@@ -552,7 +552,7 @@ readline {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return SBC;
 }
 
@@ -563,7 +563,7 @@ int {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 char    {
@@ -571,7 +571,7 @@ char    {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 double  {
@@ -579,7 +579,7 @@ double  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 float   {
@@ -587,7 +587,7 @@ float   {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 Boolean {
@@ -595,7 +595,7 @@ Boolean {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 String  {
@@ -603,7 +603,7 @@ String  {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 
@@ -612,7 +612,7 @@ byte {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 
@@ -621,7 +621,7 @@ short {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 
@@ -630,7 +630,7 @@ long {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return DT;
 }
 
@@ -639,7 +639,7 @@ enum {
     colno+=yyleng;
 	yylval=t;
     	
-        cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+        
         return DT;
 }
 
@@ -667,7 +667,7 @@ enum {
     colno+=yyleng;
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     return COMMA;
 }
 
@@ -687,7 +687,7 @@ enum {
     
     yylval=t;
     
-    cout<<"Text-"<<yytext<<endl<<"-------------------------\n";
+    
     // return 1;
     return ID;
 }
