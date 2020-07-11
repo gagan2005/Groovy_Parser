@@ -49,6 +49,7 @@ extern int colno;
 %token NEWREADER
 %token READLINE
 %token DOT
+%token NEG
 
 %token '{'
 %token '}'
@@ -105,6 +106,8 @@ sstmt:  varDeclare
 | breakstmt
 | constmt
 | assert
+| pattern
+| find
 ;
 
 //assert
@@ -210,6 +213,14 @@ infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
 ; 
 ;
 
+//pattern matching
+
+pattern: DEF ID EQ NEG STRING termination {printf("pattern\n");}
+| DEF ID EQ NEG DIV ID DIV termination {printf("pattern\n");}
+;
+find: DEF ID EQ ID EQ NEG DIV ID DIV termination {printf("find\n");}
+;
+ 
 
 /*forloop, forin loop*/
 forloop: FOR '(' forstmt ')'  forpart {printf("for");} 
