@@ -11,6 +11,8 @@ using namespace std;
 extern int lineno;
 extern int colno;
 extern char *yytext;
+bool err=false;
+// HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 %}
 %token ID
 %token REAL
@@ -187,10 +189,14 @@ E: ID COMMA E
 | ID EQ expr 
 ;
 varAssign:  ID EQ expr   
-| ID EQ '['H']'   
+| ID EQ '['H']' 
+| arr EQ expr
+| arr EQ '[' H ']'
 | mulAssign  
 | ID op EQ terms  
+| arr op EQ terms
 | ID elvisassignmentop terms
+| arr elvisassignmentop terms
 ;
 mulAssign: '(' G ')' EQ '[' H ']' 
 ;
@@ -315,7 +321,7 @@ aexpr: terms op terms
 ;
 op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
-bexpr: bexpr_ RELOP bexpr_  {$2.print();}
+bexpr: bexpr_ RELOP bexpr_ 
 | bexpr_ logop bexpr_
 | '(' bexpr ')'
 | NOT bexpr_
@@ -359,12 +365,16 @@ termination: TERM
 
 void yyerror(char const *s)  
 {  
- printf("\nSyntax Error at line no -%d and colno-%d\n",lineno,colno);  
- printf("Unexpected token- %s \n",yytext);
+    err=true;
+ printf("\x1B[31m Syntax Error at line no -%d and colno-%d \033[0m\n",lineno,colno);  
+ printf(" \x1B[31m Unexpected token- %s \n",yytext);
 }
 int main()
 {
+    
     yyparse();
+    if(!err)
+        cout<<"\x1B[32m No Syntax Error found in program\n";
     return 0;
 }
 // #include "lex.yy.c"
