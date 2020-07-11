@@ -76,19 +76,27 @@ bool err=false;
 %token QUES
 %token AS
 %right MOD
-%token AND OR NOT
-%token INC DEC
+%left AND OR NOT
+%left INC DEC
 
 %nonassoc NOELSE
 %nonassoc ELSE
 
 
 %%
-program: fundef
-| sstmts 
-| fundef sstmts
+program:  importlist fundefs sstmts
+| fundefs sstmts
+| importlist sstmts
+| sstmts
+| importlist fundefs
 ;
-sstmts: sstmt sstmts
+importlist: importlist import termination
+| import termination
+;
+fundefs: fundefs fundef
+|fundef
+; 
+sstmts: sstmt sstmts 
 | cstmt sstmts
 | sstmt
 | cstmt    
@@ -100,7 +108,6 @@ sstmt:  varDeclare
 | ret 
 | println
 | print 
-| import 
 | const
 | incdec
 | termination
@@ -143,8 +150,6 @@ comp:
 | expr
 ;
 expr:aexpr
-| bexpr
-| terms
 | terexp
 
 ;
@@ -249,7 +254,7 @@ a:
 | DEF var EQ terms
 ;
 b:
-| bexpr
+| aexpr
 ;
 var: ID %prec shift
 | arr
@@ -310,27 +315,18 @@ constmt: CONTINUE termination
 ;
 
 /* Boolean and ARthimetic Expressions */
-
-aexpr: terms op terms   
-| terms BITOP terms   
-| '(' aexpr ')'  
+aexpr: aexpr RELOP aexpr %prec shift        //Always shift when in doubt
+|aexpr logop aexpr %prec shift
 | aexpr op aexpr %prec shift
-| aexpr BITOP aexpr %prec shift
-| '(' terms ')'
-// | NEG INT
+|aexpr BITOP aexpr %prec shift
+| '(' aexpr ')' %prec shift
+| terms %prec shift
+| NEG INT
+| NOT aexpr
 ;
 op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
-bexpr: bexpr_ RELOP bexpr_ 
-| bexpr_ logop bexpr_
-| '(' bexpr ')'
-| NOT bexpr_
-;
-bexpr_: bexpr_ RELOP bexpr_ 
-| bexpr_ LOGOP bexpr_
-| terms
-| aexpr
-;
+
 logop: AND 
 | OR 
 ;
