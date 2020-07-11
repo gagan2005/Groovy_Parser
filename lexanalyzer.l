@@ -387,50 +387,6 @@ readline {
     return RELOP;
 }
 
-%{/* Operators Section */ %}
-\+\+ {
-    colno+=yyleng;
-    return INC;
-}
-\-\- {
-    colno+=yyleng;
-    return DEC;
-}
-\+ {
-    ;
-    colno+=yyleng;
-    return PLUS;
-}
-
-\- {
-    
-    colno+=yyleng;
-   
-    return MIN;
-}
-
-\* {
-   
-    colno+=yyleng;
-    return MUL;
-}
-
-\/ {
-  
-    colno+=yyleng;
-       
-    
-    return DIV;
-}
-
-\% {
-    token t("OP",5);
-    colno+=yyleng;
-    yylval=t;
-    
-    return MOD;
-}
-
 %{/*Logical Operators Section */ %}
 
 \&\& {
@@ -629,11 +585,13 @@ enum {
 }
 
 \/\/.* {
+    cout<<"A single line comment found";
       colno+=yyleng;
 }
-\/\*.*\n.*\*\/ {
+
+\/\*.*(\n)*.*\*\/ {
    
-   
+   cout<<"A comment found";
 	for(int i=0;i<yyleng;i++)
     {
         cout<<yytext[i];
@@ -646,7 +604,6 @@ enum {
         // cout<<"lineno"<<lineno;
     }
 }
-
 ,   {
     token t("COMMA");
     colno+=yyleng;
@@ -682,6 +639,54 @@ enum {
 \=  {
     token t("EQ");
     return EQ;
+}
+
+
+%{/* Operators Section */ %}
+\+\+ {
+    colno+=yyleng;
+    return INC;
+}
+\-\- {
+    colno+=yyleng;
+    return DEC;
+}
+\+ {
+    ;
+    colno+=yyleng;
+    return PLUS;
+}
+
+\- {
+    
+    colno+=yyleng;
+   
+    return MIN;
+}
+\*\*    {
+    colno+=yyleng;
+    return POW;
+}
+\* {
+   
+    colno+=yyleng;
+    return MUL;
+}
+
+\/ {
+  
+    colno+=yyleng;
+       
+    cout<<"DIv token returned";
+    return DIV;
+}
+
+\% {
+    token t("OP",5);
+    colno+=yyleng;
+    yylval=t;
+    
+    return MOD;
 }
 
 %%

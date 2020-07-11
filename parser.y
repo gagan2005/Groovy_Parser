@@ -63,8 +63,10 @@ extern int colno;
 %left PLUS
 %left MIN
 %left MUL
-%right EQ
+
 %left DIV
+%right POW
+%right EQ
 %left RELOP
 %left LOGOP
 %left BITOP
@@ -89,7 +91,7 @@ sstmts: sstmt sstmts
 | cstmt    
 ; 
 /* This list all the single line statements */
-sstmt:  varDeclare termination
+sstmt:  varDeclare
 | varAssign 
 | input
 | ret 
