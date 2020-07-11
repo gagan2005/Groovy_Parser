@@ -67,18 +67,13 @@ int colno=1;
 
 %{ //Beginning of the keywords Section %}
 if  {
-    token t("IF");
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
 	return IF;
 }
 else   {
-    token t("ELSE");
+  
     colno+=yyleng;
-    yylval=t;
-    
     
 	return ELSE;
 }
@@ -393,39 +388,37 @@ readline {
 }
 
 %{/* Operators Section */ %}
-
-\+ {
-    token t("PLUS",1);
+\+\+ {
     colno+=yyleng;
-    yylval=t;
-    
-    
+    return INC;
+}
+\-\- {
+    colno+=yyleng;
+    return DEC;
+}
+\+ {
+    ;
+    colno+=yyleng;
     return PLUS;
 }
 
 \- {
-    token t("OP",2);
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
+   
     return MIN;
 }
 
 \* {
-    token t("OP",3);
+   
     colno+=yyleng;
-    yylval=t;
-    
-    
     return MUL;
 }
 
 \/ {
-    token t("OP",4);
+  
     colno+=yyleng;
-    yylval=t;
-    
+       
     
     return DIV;
 }
@@ -446,7 +439,7 @@ readline {
     yylval=t;
     
     
-    return LOGOP;
+    return AND;
 }
 
 \|\| {
@@ -455,16 +448,15 @@ readline {
     yylval=t;
     
     
-    return LOGOP;
+    return OR;
 }
 
 \! {
-    token t("LOGOP",3);
+   
     colno+=yyleng;
-    yylval=t;
+  
     
-    
-    return LOGOP;
+    return NOT;
 }
 
 %{/* Bitwise Operators Section */ %}
@@ -513,7 +505,7 @@ readline {
     yylval=t;
     
     
-    return CBO;
+    return yytext[0];
 }
 \}  {
     token t("CURLY_BRACKET_C");
@@ -521,7 +513,7 @@ readline {
     yylval=t;
     
     
-    return CBC;
+    return yytext[0];
 }
 \(  {
     token t("ROUND_BRACKET_O");
@@ -529,31 +521,24 @@ readline {
     yylval=t;
     
     
-    return RBO;
+    return yytext[0];
 }
 \)  {
-    token t("ROUND_BRACKET_C");
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
-    return RBC;
+    return yytext[0];
 }
 \[  {
-    token t("SQ_BRACKET_O");
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
-    return SBO;
+    return yytext[0];
 }
 \]  {
-    token t("SQ_BRACKET_C");
+  
     colno+=yyleng;
-    yylval=t;
+  
     
-    
-    return SBC;
+    return yytext[0];
 }
 
 %{/* DATA TYPE Section */ %}
@@ -644,7 +629,7 @@ enum {
 }
 
 \/\/.* {
-
+      colno+=yyleng;
 }
 \/\*.*\n.*\*\/ {
    
@@ -672,6 +657,7 @@ enum {
 }
 
 \a\s  {
+      colno+=yyleng;
 	return AS;
 }
 

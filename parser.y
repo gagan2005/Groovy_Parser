@@ -52,12 +52,12 @@ extern int colno;
 %left RELOP
 %left LOGOP
 %left BITOP
-%token CBO
-%token CBC
-%token RBO
-%token RBC
-%token SBO
-%token SBC
+%token '{'
+%token '}'
+%token '('
+%token ')'
+%token '['
+%token ']'
 %token DT
 %token COMMA
 %left PLUS
@@ -68,21 +68,26 @@ extern int colno;
 %token NEWLINE
 %token AS
 %right MOD
+%token AND OR NOT
+%token INC DEC
 
 %nonassoc NOELSE
 %nonassoc ELSE
 
 
 %%
-
+program: fundef
+| sstmts 
+| fundef sstmts
+;
 sstmts: sstmt sstmts
 | cstmt sstmts
 | sstmt
 | cstmt    
 ; 
 /* This list all the single line statements */
-sstmt:  varDeclare  
-| varAssign
+sstmt:  varDeclare termination
+| varAssign 
 | input
 | ret 
 | println
@@ -90,6 +95,7 @@ sstmt:  varDeclare
 | import 
 | const 	
 | expr
+| incdec
 | termination
 ;
 /* COmpund statements */
@@ -100,9 +106,9 @@ cstmt: ifstmt      {cout<<"A compound statement found\n";}
 ; 
 
 //while loop statement
-while: WHILE RBO expr RBC CBO sstmts CBC
+while: WHILE '(' expr ')' '{' sstmts '}'
 ;
-dowhilestmt: DO CBO sstmts CBC WHILE RBO expr RBC termination
+dowhilestmt: DO '{' sstmts '}' WHILE '(' expr ')' termination
 ;
 
 
@@ -140,12 +146,12 @@ const: CONST ID EQ terms termination
 
 /*var declare,assign,input*/
 
-varDeclare: DT ID E termination {printf("declaration");}
-| DT ID EQ terms E termination {printf("declaration");}
-| DT ID EQ expr E termination {printf("declaration");}
-| DEF ID EQ terms E termination {printf("declaration");}
-| DEF ID EQ expr E termination
-| DEF ID E termination {printf("declaration");}
+varDeclare: DT ID E  {printf("declaration");}
+| DT ID EQ terms E {printf("declaration");}
+| DT ID EQ expr E {printf("declaration");}
+| DEF ID EQ terms E {printf("declaration");}
+| DEF ID EQ expr E
+| DEF ID E  {printf("declaration");}
 ;
 E: {}
 |  COMMA ID E 
@@ -157,14 +163,14 @@ varAssign: ID EQ terms termination {printf("assign");}
 ;
 input: DEF ID EQ infunction termination {printf("input");}
 | DEF ID EQ infunction AS  DT termination {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT CONSOLE RBO RBC DOT READLINE RBO RBC termination {printf("input");}
-| DEF ID EQ ID DOT READLINE RBO RBC termination {printf("input");}
-| ID EQ ID DOT READLINE RBO RBC termination {printf("input");}
+| DEF ID EQ SYSTEM DOT IN DOT CONSOLE '(' ')' DOT READLINE '(' ')' termination {printf("input");}
+| DEF ID EQ ID DOT READLINE '(' ')' termination {printf("input");}
+| ID EQ ID DOT READLINE '(' ')' termination {printf("input");}
 | infunction {printf("input");}
 | ID EQ infunction termination {printf("input");}
 | ID EQ infunction AS  DT termination {printf("input");}
 ;
-infunction: SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
+infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
 ;
 ;
 expr: aexpr
@@ -173,12 +179,13 @@ expr: aexpr
 
 
 /*forloop, forin loop*/
-forloop: FOR RBO forstmt RBC  forpart {printf("for");} 
+forloop: FOR '(' forstmt ')'  forpart {printf("for");} 
 ;
-forpart: CBO sstmts CBC
+forpart: '{' sstmts '}'
 | sstmt
 ;
-forstmt: a TERM  b TERM c 
+forstmt: a TERM  b TERM incdec
+| a TERM  b TERM varAssign
 | ID IN ID
 ;
 a:
@@ -189,10 +196,6 @@ a:
 b:
 | bexpr
 ;
-c:
-| incdec
-| varAssign
-;
 var: ID
 | arr
 ;
@@ -201,26 +204,32 @@ arr: ID dims
 dims: dims dim
 | dim
 ;
-dim:SBO ID SBC
-| SBO INT SBC
+dim:'[' ID ']'
+| '[' INT ']'
 ; 
-incdec: var PLUS PLUS
-| var MIN MIN
+incdec: var INC
+| var DEC
 ;
 
 /*grammar written by devansh*/
 
 
-/*
-fundef: DT ID RBO varAssign RBC CBO sstmts CBC
-| DEF ID RBO varAssign RBC CBO sstmts CBC
-;
-*/
-ifstmt: IF RBO expr RBC then       %prec NOELSE  {cout<<"Simple if statement found\n";}
-| IF RBO expr RBC then ELSE then                 {cout<<" if/else statement found\n";}
-| IF RBO expr RBC then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
 
-then: CBO sstmts CBC 
+fundef: DT ID '(' arglist ')' '{' sstmts '}'
+| DEF ID '(' arglist ')' '{' sstmts '}'
+;
+arglist: arglist COMMA arg
+| arg
+;
+arg: 
+| DT ID
+| DT ID EQ terms 
+| DT ID EQ expr
+ifstmt: IF '(' expr ')' then       %prec NOELSE  {cout<<"Simple if statement found\n";}
+| IF '(' expr ')' then ELSE then                 {cout<<" if/else statement found\n";}
+| IF '(' expr ')' then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
+
+then: '{' sstmts '}' 
 | sstmt
 ;
 
@@ -228,7 +237,7 @@ then: CBO sstmts CBC
 
 aexpr: aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
 | aexpr_ BITOP aexpr_   
-| RBO aexpr RBC    
+| '(' aexpr ')'    
 ;
 aexpr_: terms
 ;
@@ -236,13 +245,17 @@ op: PLUS | MIN | DIV | MUL
 
 ;
 bexpr: bexpr_ RELOP bexpr_
-| bexpr_ LOGOP bexpr_
-| RBO bexpr RBC
+| bexpr_ logop bexpr_
+| '(' bexpr ')'
 | aexpr RELOP aexpr
+| NOT bexpr_
 ;
 bexpr_: bexpr_ RELOP bexpr_ 
 | bexpr_ LOGOP bexpr_
 | terms
+;
+logop: AND 
+| OR 
 ;
 
 
