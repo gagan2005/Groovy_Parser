@@ -1,3 +1,21 @@
+/*assignments and declarations*/
+def x=[1,2,[1,2,3]];
+def (a,b,c) = [1,2,3];
+(a,b,c,d) = [1,2,[1,22,2],[1,2,2,[1,2]]];
+a+=2;
+a[0]='a';
+a[0]*=3;
+int a;
+int a,b=2,c,d=3;
+def x=2,y=3;
+def x=[1,2,[2,3]];
+a=a+b*c;
+a=[1,2,[2,3]];
+a[3][3]=a+2;
+a[2][2] = [1,2,3];
+
+
+
 def abc(int a ,int b)
 {
     return (a+b);
