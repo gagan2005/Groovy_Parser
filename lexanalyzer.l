@@ -605,7 +605,7 @@ enum {
     return COMMA;
 }
 
-\a\s  {
+as  {
       colno+=yyleng;
 	return AS;
 }
