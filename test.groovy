@@ -2,10 +2,13 @@ def abc(int a ,int b)
 {
     return (a+b);
 }
+String[] s=[1,2,3];
+int arr = new int[2][2];
 if(a>b)print x;
 print (x);
 break;
 assert 2 == 2;
+def b='c';
 /* 
 GRG
 RDGD

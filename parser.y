@@ -176,9 +176,11 @@ const: CONST ID EQ terms termination
 varDeclare: DT E termination  {printf("declaration\n");}
 | DEF E termination {printf("declaration\n");}
 | DEF ID EQ '['H']' termination {printf("declaration\n");}
+| DT '[' ']' ID EQ '[' H ']' termination
+| DT ID EQ NEW DT dims termination
 | mulDeclare  {printf("muldeclaration\n");}
 ;
-mulDeclare : DEF '('G')' EQ '[' H ']' termination
+mulDeclare: DEF '(' G ')' EQ '[' H ']' termination
 ;
 E: ID COMMA E 
 | ID EQ expr COMMA E
