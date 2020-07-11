@@ -75,10 +75,11 @@ extern int colno;
 
 %%
 
-sstmts : sstmt sstmts
+sstmts: sstmt sstmts
 | cstmt sstmts
 | sstmt
-| cstmt     
+| cstmt    
+; 
 /* This list all the single line statements */
 sstmt:  varDeclare  
 | varAssign
@@ -90,21 +91,26 @@ sstmt:  varDeclare
 | const 	
 | expr
 | termination
-| forloop
 ;
+/* COmpund statements */
+cstmt: ifstmt      {cout<<"A compound statement found\n";}
+    | while
+    | dowhilestmt
+    | forloop
+; 
 
 //while loop statement
-while : WHILE RBO expr RBC CBO sstmts CBC
+while: WHILE RBO expr RBC CBO sstmts CBC
 ;
-cstmt : ifstmt      {cout<<"A compound statement found\n";}
-    |   while
-; 
+dowhilestmt: DO CBO sstmts CBC WHILE RBO expr RBC termination
+;
+
 
 
 /* Grammer for RETURN statement */
-ret : RET comp termination 
+ret: RET comp termination 
 ;
-comp :
+comp:
 | aexpr
 | bexpr
 | terms
@@ -113,24 +119,24 @@ comp :
 
 // Grammer for PRINT statement
 
-println : PRINTLN aexpr termination 
+println: PRINTLN aexpr termination 
 |PRINTLN terms termination
-
+;
 
 // Grammer for PRINTLN statement
-print : PRINT aexpr termination
+print: PRINT aexpr termination
 |PRINT terms termination
-
+;
 // Grammer for IMPORT statement
-import :  IMPORT t termination | IMPORT STATIC t 
-t :  ID DOT t
+import:  IMPORT t termination | IMPORT STATIC t 
+t:  ID DOT t
     | ID DOT MUL
     | ID termination
     | ID AS ID
 
 
 //constant 
-const : CONST ID EQ terms termination
+const: CONST ID EQ terms termination
 
 /*var declare,assign,input*/
 
@@ -158,7 +164,7 @@ input: DEF ID EQ infunction termination {printf("input");}
 | ID EQ infunction termination {printf("input");}
 | ID EQ infunction AS  DT termination {printf("input");}
 ;
-infunction : SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
+infunction: SYSTEM DOT IN DOT NEWREADER RBO RBC DOT READLINE RBO RBC
 ;
 ;
 expr: aexpr
@@ -173,11 +179,12 @@ forpart: CBO sstmts CBC
 | sstmt
 ;
 forstmt: a TERM  b TERM c 
-| var IN var
+| ID IN ID
 ;
 a:
 | var EQ terms
 | DT var EQ terms
+| DEF var EQ terms
 ;
 b:
 | bexpr
@@ -187,13 +194,16 @@ c:
 | varAssign
 ;
 var: ID
-| ID SBO INT SBC F
-| ID SBO SBC
-; 
-F: 
-| SBO SBC F
-| SBO INT SBC F
+| arr
 ;
+arr: ID dims
+;
+dims: dims dim
+| dim
+;
+dim:SBO ID SBC
+| SBO INT SBC
+; 
 incdec: var PLUS PLUS
 | var MIN MIN
 ;
@@ -202,45 +212,30 @@ incdec: var PLUS PLUS
 
 
 /*
-fundef : DT ID RBO varAssign RBC CBO sstmts CBC
+fundef: DT ID RBO varAssign RBC CBO sstmts CBC
 | DEF ID RBO varAssign RBC CBO sstmts CBC
 ;
 */
-ifstmt : IF RBO expr RBC then       %prec NOELSE  {cout<<"Simple if statement found\n";}
+ifstmt: IF RBO expr RBC then       %prec NOELSE  {cout<<"Simple if statement found\n";}
 | IF RBO expr RBC then ELSE then                 {cout<<" if/else statement found\n";}
 | IF RBO expr RBC then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
 
-// ;
-// | ifstmt elsestmt
-// ;
-// elseifstmt: ELSE ifstmt
-// ifelseifstmt : ifstmt elseifs elsestmt
-// ;
-// elseifs : elseifs elseifstmt 
-// |
-// | elseifstmt
-// ifstmt : IF RBO bexpr RBC then
-// | IF RBO TRUE RBC then
-// | IF RBO FALSE RBC then
-// ;
-// elsestmt : ELSE then
-// ;
-then : CBO sstmts CBC 
+then: CBO sstmts CBC 
 | sstmt
 ;
 
 /* Boolean and ARthimetic Expressions */
 
-aexpr : aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
+aexpr: aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
 | aexpr_ BITOP aexpr_   
 | RBO aexpr RBC    
 ;
-aexpr_ : terms
+aexpr_: terms
 ;
-op : PLUS | MIN | DIV | MUL
+op: PLUS | MIN | DIV | MUL
 
 ;
-bexpr : bexpr_ RELOP bexpr_
+bexpr: bexpr_ RELOP bexpr_
 | bexpr_ LOGOP bexpr_
 | RBO bexpr RBC
 | aexpr RELOP aexpr
@@ -258,7 +253,7 @@ bexpr_: bexpr_ RELOP bexpr_
 /* Terms Section */
 /* This section defines different terms */
 /* All terms */
-terms : INT
+terms: INT
 | REAL
 | var
 | TRUE
@@ -266,8 +261,7 @@ terms : INT
 | STRING
 ;
 
-termination : NEWLINE {cout<<"Newline fourn";}
-| TERM	{cout<<"Termination fournd";}
+termination: TERM {cout<<"Termination fournd";}
 ;
 /*grammar written by devansh*/
 %%

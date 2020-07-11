@@ -19,7 +19,7 @@ int colno=1;
 %}
 %option noyywrap
 %%
-\n  {lineno++;colno=1; return NEWLINE;}
+\n  {lineno++;colno=1;}
 [ ] {colno++;}
 [0-9]+\.[0-9]+  {
     
