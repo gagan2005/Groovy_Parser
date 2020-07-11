@@ -6,9 +6,26 @@ if(a>b)print x;
 print (x);
 break;
 assert 2 == 2;
+/* 
+GRG
+RDGD
+DAW
+*/
 print ((a>b)?"hello":"buffalo");
 a?=2;
 def a = ~"Hello";
+do {
+	count2 -= 0.4;
+	switch (count2){
+		case 2:
+			println "its 2";
+		case 1.6:
+			println "its 1.6";
+		default:
+			println "less than 1.5";
+	}
+    
+}while(count2 >= 0.4);
 switch (a)
 {
     case 6: 
@@ -20,6 +37,18 @@ switch (a)
         break;
    
 }
+do{
+    count2-=0.4;
+    switch(count2)
+    {
+        case 2:
+            print "its2";
+        case 1.6:
+            print "ad";
+       
+    }
+}while(abc);
+
 for(int i=0;i<2;i++)
 { 
     print true;

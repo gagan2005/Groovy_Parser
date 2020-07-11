@@ -464,27 +464,19 @@ readline {
 %{/* Brackets Section */ %}
 
 \{  {
-    token t("CURLY_BRACKET_O");
+  
     colno+=yyleng;
-    yylval=t;
-    
-    
     return yytext[0];
 }
 \}  {
-    token t("CURLY_BRACKET_C");
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
     return yytext[0];
 }
 \(  {
-    token t("ROUND_BRACKET_O");
+   
     colno+=yyleng;
-    yylval=t;
-    
-    
+  
     return yytext[0];
 }
 \)  {
@@ -578,28 +570,22 @@ long {
 	token t("DATA_TYPE","long");
     colno+=yyleng;
     yylval=t;
-    
-    
     return DT;
 }
 
 enum {
-	token t("DATA_TYPE","enum");
-    colno+=yyleng;
-	yylval=t;
-    	
-        
+        colno+=yyleng;
         return DT;
 }
 
 \/\/.* {
-    cout<<"A single line comment found";
+    
       colno+=yyleng;
 }
 
-\/\*.*(\n)*.*\*\/ {
+\/\*([^*]|\*+[^/])*\*+\/ {
    
-   cout<<"A comment found";
+   
 	for(int i=0;i<yyleng;i++)
     {
         cout<<yytext[i];
@@ -613,11 +599,9 @@ enum {
     }
 }
 ,   {
-    token t("COMMA");
+    
     colno+=yyleng;
-    yylval=t;
-    
-    
+   
     return COMMA;
 }
 
@@ -645,10 +629,11 @@ enum {
 
 
 \=  {
-    token t("EQ");
+  colno+=yyleng;
     return EQ;
 }
 \?  {
+    colno+=yyleng;
     return QUES;
 }
 
@@ -687,8 +672,6 @@ enum {
 \/ {
   
     colno+=yyleng;
-       
-    cout<<"DIv token returned";
     return DIV;
 }
 
