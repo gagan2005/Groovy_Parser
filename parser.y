@@ -287,6 +287,7 @@ then:'{' sstmts '}'
 switchstmt:SWITCH '(' expr ')' '{' cases default '}'
 ;
 default: DEFAULT COLON sstmts;
+|
 cases:
 |cases case;
 
