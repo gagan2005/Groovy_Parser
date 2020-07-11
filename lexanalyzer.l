@@ -648,6 +648,9 @@ enum {
     token t("EQ");
     return EQ;
 }
+\?  {
+    return QUES;
+}
 
 
 %{/* Operators Section */ %}

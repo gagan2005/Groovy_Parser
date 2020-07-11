@@ -67,10 +67,10 @@ extern int colno;
 %left DIV
 %right POW
 %right EQ
-%left RELOP
+%right RELOP
 %left LOGOP
 %left BITOP
-%token NEWLINE
+%token QUES
 %token AS
 %right MOD
 %token AND OR NOT
@@ -130,8 +130,12 @@ comp:
 expr:aexpr
 | bexpr
 | terms
+| terexp
 
 ;
+terexp : '(' terexp ')'
+| terstmt
+| elvisop
 
 // Grammer for PRINT statement
 
@@ -155,7 +159,6 @@ t:  ID DOT t
 const: CONST ID EQ terms termination
 ;
 /*var declare,assign,input*/
-
 varDeclare: DT E termination  {printf("declaration\n");}
 | DEF E termination {printf("declaration\n");}
 | DEF ID EQ '['H']' termination {printf("declaration\n");}
@@ -172,6 +175,7 @@ varAssign:  ID EQ expr  {printf("assign\n");}
 | ID EQ '['H']'  {printf("assign\n");}
 | mulAssign {printf("mulassign\n");}
 | ID op EQ terms {printf("AssOp\n");}
+| ID elvisassignmentop terms
 ;
 mulAssign: '(' G ')' EQ '[' H ']' 
 ;
@@ -231,10 +235,6 @@ dim:'[' ID ']'
 incdec: var INC
 | var DEC
 ;
-
-
-
-
 fundef: DT ID '(' arglist ')' '{' sstmts '}'
 | DEF ID '(' arglist ')' '{' sstmts '}'
 ;
@@ -274,7 +274,7 @@ case: CASE terms COLON sstmts;
 breakstmt: BREAK termination
 ;
 constmt: CONTINUE termination
-
+;
 
 /* Boolean and ARthimetic Expressions */
 
@@ -283,10 +283,11 @@ aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
 | '(' aexpr ')'  
 | aexpr op aexpr %prec shift
 | aexpr BITOP aexpr %prec shift
+| '(' terms ')'
 ;
 op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
-bexpr: bexpr_ RELOP bexpr_
+bexpr: bexpr_ RELOP bexpr_  {$2.print();}
 | bexpr_ logop bexpr_
 | '(' bexpr ')'
 | NOT bexpr_
@@ -299,7 +300,12 @@ bexpr_: bexpr_ RELOP bexpr_
 logop: AND 
 | OR 
 ;
-
+terstmt:  expr QUES terms COLON terms
+;
+elvisop: expr QUES COLON terms
+;
+elvisassignmentop: QUES EQ
+;
 
 
 
@@ -314,11 +320,12 @@ terms: INT
 | TRUE
 | FALSE
 | STRING
+
 ;
 
 termination: TERM {cout<<"Termination fournd\n";}
 ;
-/*grammar written by devansh*/
+
 %%
 
 void yyerror(char const *s)  

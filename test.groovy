@@ -2,7 +2,10 @@ def abc(int a ,int b)
 {
     return (a+b);
 }
+if(a>b)print x;
+print (x);
 break;
+print ((a>b)?"hello":"buffalo");
 switch (a)
 {
     case 6: 
@@ -10,8 +13,7 @@ switch (a)
             if(true)print 2;
             break;
         }
-    default: print (2);
-    break;
+   
 }
 for(int i=0;i<2;i++)
 { 
