@@ -10,6 +10,7 @@ using namespace std;
     void yyerror(char const *);
 extern int lineno;
 extern int colno;
+extern char *yytext;
 %}
 
 %token ID
@@ -294,7 +295,7 @@ aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
 | aexpr op aexpr %prec shift
 | aexpr BITOP aexpr %prec shift
 | '(' terms ')'
-| NEG INT
+// | NEG INT
 ;
 op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
@@ -341,7 +342,8 @@ termination: TERM {cout<<"Termination fournd\n";}
 
 void yyerror(char const *s)  
 {  
- printf("\nError at line no -%d and colno%d\n",lineno,colno);  
+ printf("\nSyntax Error at line no -%d and colno-%d\n",lineno,colno);  
+ printf("Unexpected token- %s \n",yytext);
 }
 int main()
 {
