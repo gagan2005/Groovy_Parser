@@ -108,7 +108,7 @@ sstmt:  varDeclare
 ;
 
 //assert
-assert : ASSERT expr RELOP expr f 
+assert : ASSERT expr f 
 f:
 | COLON terms
 ;
