@@ -453,12 +453,12 @@ readline {
 }
 
 \~ {
-    token t("BITOP",4);
+    token t("NEG");
     colno+=yyleng;
     yylval=t;
     
     
-    return BITOP;
+    return NEG;
 }
 
 %{/* Brackets Section */ %}
