@@ -143,35 +143,51 @@ t:  ID DOT t
 
 //constant 
 const: CONST ID EQ terms termination
-
+;
 /*var declare,assign,input*/
 
-varDeclare: DT ID E  {printf("declaration");}
-| DT ID EQ terms E {printf("declaration");}
-| DT ID EQ expr E {printf("declaration");}
-| DEF ID EQ terms E {printf("declaration");}
-| DEF ID EQ expr E
-| DEF ID E  {printf("declaration");}
+varDeclare: DT E termination  {printf("declaration\n");}
+| DEF E termination {printf("declaration\n");}
+| DEF ID EQ '['H']' termination {printf("declaration\n");}
+| mulDeclare  {printf("muldeclaration\n");}
 ;
-E: {}
-|  COMMA ID E 
-|  COMMA ID EQ terms E 
-|  COMMA ID EQ expr E
+mulDeclare : DEF '('G')' EQ '[' H ']' termination
 ;
-varAssign: ID EQ terms termination {printf("assign");}
-| ID EQ expr termination {printf("assign");}
+E: ID COMMA E 
+| ID EQ terms COMMA E 
+| ID EQ expr COMMA E
+|  ID 
+| ID EQ terms 
+| ID EQ expr 
 ;
-input: DEF ID EQ infunction termination {printf("input");}
-| DEF ID EQ infunction AS  DT termination {printf("input");}
-| DEF ID EQ SYSTEM DOT IN DOT CONSOLE '(' ')' DOT READLINE '(' ')' termination {printf("input");}
-| DEF ID EQ ID DOT READLINE '(' ')' termination {printf("input");}
-| ID EQ ID DOT READLINE '(' ')' termination {printf("input");}
-| infunction {printf("input");}
-| ID EQ infunction termination {printf("input");}
-| ID EQ infunction AS  DT termination {printf("input");}
+varAssign: ID EQ terms termination {printf("assign\n");}
+| ID EQ expr termination {printf("assign\n");}
+| ID EQ '['H']' termination {printf("assign\n");}
+| mulAssign {printf("mulassign\n");}
+;
+mulAssign: '(' G ')' EQ '[' H ']' termination
+;
+G: ID COMMA G
+| DT ID COMMA G
+| DT ID 
+| ID
+;
+H: '[' H ']' COMMA H
+| terms COMMA H
+| terms
+| '[' H ']'
+;
+input: DEF ID EQ infunction termination {printf("input\n");}
+| DEF ID EQ infunction AS  DT termination {printf("input\n");}
+| DEF ID EQ SYSTEM DOT IN DOT CONSOLE '(' ')' DOT READLINE '(' ')' termination {printf("input\n");}
+| DEF ID EQ ID DOT READLINE '(' ')' termination {printf("input\n");}
+| ID EQ ID DOT READLINE '(' ')' termination {printf("input\n");}
+| infunction {printf("input\n");}
+| ID EQ infunction termination {printf("input\n");}
+| ID EQ infunction AS  DT termination {printf("input\n");}
 ;
 infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
-;
+; 
 ;
 expr: aexpr
 | bexpr
@@ -274,7 +290,7 @@ terms: INT
 | STRING
 ;
 
-termination: TERM {cout<<"Termination fournd";}
+termination: TERM {cout<<"Termination fournd\n";}
 ;
 /*grammar written by devansh*/
 %%
