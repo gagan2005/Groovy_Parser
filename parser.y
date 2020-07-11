@@ -105,10 +105,12 @@ sstmt:  varDeclare
 | breakstmt
 | constmt
 | assert
+| label sstmt
 ;
-
+label: ID COLON
+;
 //assert
-assert : ASSERT expr f 
+assert: ASSERT expr f 
 f:
 | COLON terms
 ;
@@ -292,6 +294,7 @@ aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
 | aexpr op aexpr %prec shift
 | aexpr BITOP aexpr %prec shift
 | '(' terms ')'
+| NEG INT
 ;
 op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
