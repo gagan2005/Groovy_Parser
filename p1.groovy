@@ -1,4 +1,6 @@
-
+/* an example of multiline comment in groovy
+there are many statements contained in groovy some examples are below
+*/
 
 // comment in groovy
 import groovy.xml.MarkupBuilder
@@ -6,7 +8,7 @@ import java.lang.*
 import static term1.term2
 import static Calendar.getInstance as human;
 
-
+//function declaration in groovy
 def function(int a ,int b)
 {
     return (a+b);
@@ -14,7 +16,7 @@ def function(int a ,int b)
 
 
 int count = 0;
-		
+//while loop in groovy		
 while(count<5) {
     if(count == 1)
     	print 1;
@@ -28,9 +30,10 @@ while(count<5) {
     }
 
 float count2 = 2.4;
-
+//do while loop in groovy
 do {
 	count2 -= 0.4;
+//switch case in groovy
 	switch (count2){
 		case 2:
 			println "its 2";
@@ -43,22 +46,23 @@ do {
   
 
 int[] array = [1,2,3,4]; 
-		
+//for in loop in groovy		
     for( i in array) { 
         println(i); 
       } 
-
+//for loop in groovy
        for(int i = 0;i<5;i++) {
          println(i);
       }
 
 int[] intArray = [200, 300, 100];
 println intArray;
+//function call in groovy
 sort(intArray)  ;    
 println intArray;
 
 for(item in arr){
-
+//if else statement in groovy
   def nextItem = givenNo - item ;// substract each item from given no
   if(contains){
      set1 = item  ;
