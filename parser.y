@@ -162,10 +162,10 @@ print: PRINT expr termination
 
 ;
 // Grammer for IMPORT statement
-import:  IMPORT t termination | IMPORT STATIC t 
+import:  IMPORT t | IMPORT STATIC t 
 t:  ID DOT t
     | ID DOT MUL
-    | ID termination
+    | ID 
     | ID AS ID
 ;
 
