@@ -588,7 +588,7 @@ enum {
    
 	for(int i=0;i<yyleng;i++)
     {
-        cout<<yytext[i];
+      
         if(yytext[i]=='\n')
         {
             colno=1;

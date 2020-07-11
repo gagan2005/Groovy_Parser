@@ -12,7 +12,6 @@ extern int lineno;
 extern int colno;
 extern char *yytext;
 %}
-
 %token ID
 %token REAL
 %token INT
@@ -52,16 +51,16 @@ extern char *yytext;
 %token DOT
 %token NEG
 
+%nonassoc shift
 %token '{'
 %token '}'
-%token '('
+%nonassoc '('
 %token ')'
 %token '['
 %token ']'
 %token DT
 %token COMMA
 
-%nonassoc shift
 %left PLUS
 %left MIN
 %left MUL
@@ -120,7 +119,7 @@ f:
 ;
 
 /* COmpund statements */
-cstmt: ifstmt      {cout<<"A compound statement found\n";}
+cstmt: ifstmt        
     | while
     | dowhilestmt
     | forloop
@@ -173,12 +172,12 @@ t:  ID DOT t
 const: CONST ID EQ terms termination
 ;
 /*var declare,assign,input*/
-varDeclare: DT E termination  {printf("declaration\n");}
-| DEF E termination {printf("declaration\n");}
-| DEF ID EQ '['H']' termination {printf("declaration\n");}
+varDeclare: DT E termination   
+| DEF E termination  
+| DEF ID EQ '['H']' termination  
 | DT '[' ']' ID EQ '[' H ']' termination
 | DT ID EQ NEW DT dims termination
-| mulDeclare  {printf("muldeclaration\n");}
+| mulDeclare   
 ;
 mulDeclare: DEF '(' G ')' EQ '[' H ']' termination
 ;
@@ -187,10 +186,10 @@ E: ID COMMA E
 | ID 
 | ID EQ expr 
 ;
-varAssign:  ID EQ expr  {printf("assign\n");}
-| ID EQ '['H']'  {printf("assign\n");}
-| mulAssign {printf("mulassign\n");}
-| ID op EQ terms {printf("AssOp\n");}
+varAssign:  ID EQ expr   
+| ID EQ '['H']'   
+| mulAssign  
+| ID op EQ terms  
 | ID elvisassignmentop terms
 ;
 mulAssign: '(' G ')' EQ '[' H ']' 
@@ -205,14 +204,14 @@ H: '[' H ']' COMMA H
 | terms
 | '[' H ']'
 ;
-input: DEF ID EQ infunction termination {printf("input\n");}
-| DEF ID EQ infunction AS  DT termination {printf("input\n");}
-| DEF ID EQ SYSTEM DOT IN DOT CONSOLE '(' ')' DOT READLINE '(' ')' termination {printf("input\n");}
-| DEF ID EQ ID DOT READLINE '(' ')' termination {printf("input\n");}
-| ID EQ ID DOT READLINE '(' ')' termination {printf("input\n");}
-| infunction {printf("input\n");}
-| ID EQ infunction termination {printf("input\n");}
-| ID EQ infunction AS  DT termination {printf("input\n");}
+input: DEF ID EQ infunction termination  
+| DEF ID EQ infunction AS  DT termination  
+| DEF ID EQ SYSTEM DOT IN DOT CONSOLE '(' ')' DOT READLINE '(' ')' termination  
+| DEF ID EQ ID DOT READLINE '(' ')' termination  
+| ID EQ ID DOT READLINE '(' ')' termination  
+| infunction  
+| ID EQ infunction termination  
+| ID EQ infunction AS  DT termination  
 ;
 infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
 ; 
@@ -220,15 +219,15 @@ infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
 
 //pattern matching
 
-pattern: DEF ID EQ NEG STRING termination {printf("pattern\n");}
-| DEF ID EQ NEG DIV ID DIV termination {printf("pattern\n");}
+pattern: DEF ID EQ NEG STRING termination  
+| DEF ID EQ NEG DIV ID DIV termination  
 ;
-find: DEF ID EQ ID EQ NEG DIV ID DIV termination {printf("find\n");}
+find: DEF ID EQ ID EQ NEG DIV ID DIV termination  
 ;
  
 
 /*forloop, forin loop*/
-forloop: FOR '(' forstmt ')'  forpart {printf("for");} 
+forloop: FOR '(' forstmt ')'  forpart   
 ;
 forpart: '{' sstmts '}'
 | sstmt
@@ -236,6 +235,7 @@ forpart: '{' sstmts '}'
 forstmt: a TERM  b TERM incdec
 | a TERM  b TERM varAssign
 | var IN var
+| DT var IN var
 ;
 a:
 | var EQ terms
@@ -245,8 +245,9 @@ a:
 b:
 | bexpr
 ;
-var: ID
+var: ID %prec shift
 | arr
+| funcall
 ;
 arr: ID dims
 ;
@@ -273,12 +274,13 @@ funcall: ID '(' argumentlist ')'
 | ID '(' ')'
 ;
 argumentlist:  argumentlist COMMA terms
-| terms
+| expr
+
 ;
 
-ifstmt: IF '(' expr ')' then       %prec NOELSE  {cout<<"Simple if statement found\n";}
-| IF '(' expr ')' then ELSE then                 {cout<<" if/else statement found\n";}
-| IF '(' expr ')' then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
+ifstmt: IF '(' expr ')' then       %prec NOELSE    
+| IF '(' expr ')' then ELSE then                   
+| IF '(' expr ')' then ELSE ifstmt                    
 ;
 then:'{' sstmts '}' 
 | sstmt
@@ -303,7 +305,7 @@ constmt: CONTINUE termination
 
 /* Boolean and ARthimetic Expressions */
 
-aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
+aexpr: terms op terms   
 | terms BITOP terms   
 | '(' aexpr ')'  
 | aexpr op aexpr %prec shift
@@ -350,7 +352,7 @@ terms: INT
 
 ;
 
-termination: TERM {cout<<"Termination fournd\n";}
+termination: TERM   
 ;
 
 %%
