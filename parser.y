@@ -92,14 +92,13 @@ sstmts: sstmt sstmts
 ; 
 /* This list all the single line statements */
 sstmt:  varDeclare
-| varAssign 
+| varAssign termination
 | input
 | ret 
 | println
 | print 
 | import 
-| const 	
-| expr
+| const
 | incdec
 | termination
 ;
@@ -146,7 +145,7 @@ t:  ID DOT t
     | ID DOT MUL
     | ID termination
     | ID AS ID
-
+;
 
 //constant 
 const: CONST ID EQ terms termination
@@ -165,11 +164,12 @@ E: ID COMMA E
 | ID 
 | ID EQ expr 
 ;
-varAssign:  ID EQ expr termination {printf("assign\n");}
-| ID EQ '['H']' termination {printf("assign\n");}
+varAssign:  ID EQ expr  {printf("assign\n");}
+| ID EQ '['H']'  {printf("assign\n");}
 | mulAssign {printf("mulassign\n");}
+| ID op EQ terms {printf("AssOp\n");}
 ;
-mulAssign: '(' G ')' EQ '[' H ']' termination
+mulAssign: '(' G ')' EQ '[' H ']' 
 ;
 G: ID COMMA G
 | DT ID COMMA G
@@ -203,7 +203,7 @@ forpart: '{' sstmts '}'
 ;
 forstmt: a TERM  b TERM incdec
 | a TERM  b TERM varAssign
-| ID IN ID
+| var IN var
 ;
 a:
 | var EQ terms
