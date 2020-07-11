@@ -49,9 +49,7 @@ extern int colno;
 %token NEWREADER
 %token READLINE
 %token DOT
-%left RELOP
-%left LOGOP
-%left BITOP
+
 %token '{'
 %token '}'
 %token '('
@@ -60,11 +58,16 @@ extern int colno;
 %token ']'
 %token DT
 %token COMMA
+
+%nonassoc shift
 %left PLUS
 %left MIN
 %left MUL
 %right EQ
 %left DIV
+%left RELOP
+%left LOGOP
+%left BITOP
 %token NEWLINE
 %token AS
 %right MOD
@@ -117,7 +120,9 @@ dowhilestmt: DO '{' sstmts '}' WHILE '(' expr ')' termination
 ret: RET comp termination 
 ;
 comp:
-| aexpr
+| expr
+;
+expr:aexpr
 | bexpr
 | terms
 
@@ -125,13 +130,13 @@ comp:
 
 // Grammer for PRINT statement
 
-println: PRINTLN aexpr termination 
-|PRINTLN terms termination
+println: PRINTLN expr termination 
+
 ;
 
 // Grammer for PRINTLN statement
-print: PRINT aexpr termination
-|PRINT terms termination
+print: PRINT expr termination
+
 ;
 // Grammer for IMPORT statement
 import:  IMPORT t termination | IMPORT STATIC t 
@@ -148,18 +153,18 @@ const: CONST ID EQ terms termination
 
 varDeclare: DT ID E  {printf("declaration");}
 | DT ID EQ terms E {printf("declaration");}
-| DT ID EQ expr E {printf("declaration");}
-| DEF ID EQ terms E {printf("declaration");}
+// | DT ID EQ expr E {printf("declaration");}
+// | DEF ID EQ terms E {printf("declaration");}
 | DEF ID EQ expr E
 | DEF ID E  {printf("declaration");}
 ;
 E: {}
 |  COMMA ID E 
-|  COMMA ID EQ terms E 
+// |  COMMA ID EQ terms E 
 |  COMMA ID EQ expr E
 ;
 varAssign: ID EQ terms termination {printf("assign");}
-| ID EQ expr termination {printf("assign");}
+// | ID EQ expr termination {printf("assign");}
 ;
 input: DEF ID EQ infunction termination {printf("input");}
 | DEF ID EQ infunction AS  DT termination {printf("input");}
@@ -172,9 +177,6 @@ input: DEF ID EQ infunction termination {printf("input");}
 ;
 infunction: SYSTEM DOT IN DOT NEWREADER '(' ')' DOT READLINE '(' ')'
 ;
-;
-expr: aexpr
-| bexpr
 ;
 
 
@@ -223,8 +225,9 @@ arglist: arglist COMMA arg
 ;
 arg: 
 | DT ID
-| DT ID EQ terms 
+// | DT ID EQ terms 
 | DT ID EQ expr
+;
 ifstmt: IF '(' expr ')' then       %prec NOELSE  {cout<<"Simple if statement found\n";}
 | IF '(' expr ')' then ELSE then                 {cout<<" if/else statement found\n";}
 | IF '(' expr ')' then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
@@ -235,24 +238,27 @@ then: '{' sstmts '}'
 
 /* Boolean and ARthimetic Expressions */
 
-aexpr: aexpr_ op aexpr_ {cout<<"ARthimetic exp found\n";}
-| aexpr_ BITOP aexpr_   
-| '(' aexpr ')'    
+aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
+| terms BITOP terms   
+| '(' aexpr ')'  
+| aexpr op aexpr %prec shift
+| aexpr BITOP aexpr %prec shift
 ;
-aexpr_: terms
+aexpr_: aexpr_ op aexpr_
+| aexpr_ BITOP aexpr_ 
+| terms
 ;
 op: PLUS | MIN | DIV | MUL
-
 ;
 bexpr: bexpr_ RELOP bexpr_
 | bexpr_ logop bexpr_
 | '(' bexpr ')'
-| aexpr RELOP aexpr
 | NOT bexpr_
 ;
 bexpr_: bexpr_ RELOP bexpr_ 
 | bexpr_ LOGOP bexpr_
 | terms
+| aexpr
 ;
 logop: AND 
 | OR 
