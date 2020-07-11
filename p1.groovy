@@ -3,9 +3,9 @@ there are many statements contained in groovy some examples are below
 */
 
 // comment in groovy
-import groovy.xml.MarkupBuilder
-import groovy.xml.StreamingMarkupBuilder
-import groovy.xml.*
+import groovy.xml.MarkupBuilder;
+import groovy.xml.StreamingMarkupBuilder;
+import groovy.xml.*;
 import static Calendar.getInstance as now;
 
 //function declaration in groovy
