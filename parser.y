@@ -104,7 +104,15 @@ sstmt:  varDeclare
 | funcall termination
 | breakstmt
 | constmt
+| assert
 ;
+
+//assert
+assert : ASSERT expr RELOP expr f 
+f:
+| COLON terms
+;
+
 /* COmpund statements */
 cstmt: ifstmt      {cout<<"A compound statement found\n";}
     | while
