@@ -270,9 +270,9 @@ then:'{' sstmts '}'
 
 /* Switch case */
 
-switchstmt:SWITCH '(' expr ')' '{' cases '}'
+switchstmt:SWITCH '(' expr ')' '{' cases default '}'
 ;
-
+default: DEFAULT COLON sstmts;
 cases:
 |cases case;
 

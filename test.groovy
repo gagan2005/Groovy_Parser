@@ -5,7 +5,10 @@ def abc(int a ,int b)
 if(a>b)print x;
 print (x);
 break;
+assert 2 == 2;
 print ((a>b)?"hello":"buffalo");
+a?=2;
+def a = ~"Hello";
 switch (a)
 {
     case 6: 
@@ -13,6 +16,8 @@ switch (a)
             if(true)print 2;
             break;
         }
+    default:
+        break;
    
 }
 for(int i=0;i<2;i++)
@@ -41,7 +46,6 @@ for(int i=0;i<2;i++)
     else print "joke";
 
 }
-;
 print z;
 def n=100;     
 def m=2;       
