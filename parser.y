@@ -344,6 +344,7 @@ terms: INT
 | TRUE
 | FALSE
 | STRING
+| CHAR
 
 ;
 
