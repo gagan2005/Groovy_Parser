@@ -333,6 +333,14 @@ readline {
 
 %{/* Relational Operators Section */ %}
 
+\=\=\=  {
+      token t("RELOP",0);
+    colno+=yyleng;
+    yylval=t;
+    
+    
+	return RELOP;
+}
 \=\=  {
     token t("RELOP",1);
     colno+=yyleng;

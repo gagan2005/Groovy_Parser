@@ -2,6 +2,17 @@ def abc(int a ,int b)
 {
     return (a+b);
 }
+break;
+switch (a)
+{
+    case 6: 
+        if(true){
+            if(true)print 2;
+            break;
+        }
+    default: print (2);
+    break;
+}
 for(int i=0;i<2;i++)
 { 
     print true;
@@ -35,13 +46,7 @@ def m=2;
 def i=0;
 def k=2+2;
 
-// funcall : ID RBO argumentlist RBC
-// | ID RBO RBC
-// | ID RBO terms RBC
-// ;
-argumentlist :  argumentlist COMMA terms
-| terms
-;
-dowhilestmt : DO CBO sstmts CBC WHILE RBO expr RBC termination
-;
+callme(a);
+called();
+called(a[2]);
 

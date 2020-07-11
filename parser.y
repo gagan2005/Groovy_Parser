@@ -101,12 +101,16 @@ sstmt:  varDeclare
 | const
 | incdec
 | termination
+| funcall termination
+| breakstmt
+| constmt
 ;
 /* COmpund statements */
 cstmt: ifstmt      {cout<<"A compound statement found\n";}
     | while
     | dowhilestmt
     | forloop
+    | switchstmt
 ; 
 
 //while loop statement
@@ -228,7 +232,6 @@ incdec: var INC
 | var DEC
 ;
 
-/*grammar written by devansh*/
 
 
 
@@ -240,16 +243,38 @@ arglist: arglist COMMA arg
 ;
 arg: 
 | DT ID
-// | DT ID EQ terms 
 | DT ID EQ expr
 ;
+funcall: ID '(' argumentlist ')'
+| ID '(' ')'
+;
+argumentlist:  argumentlist COMMA terms
+| terms
+;
+
 ifstmt: IF '(' expr ')' then       %prec NOELSE  {cout<<"Simple if statement found\n";}
 | IF '(' expr ')' then ELSE then                 {cout<<" if/else statement found\n";}
 | IF '(' expr ')' then ELSE ifstmt                  {cout<<" if lse if statement found\n";}
-
-then: '{' sstmts '}' 
+;
+then:'{' sstmts '}' 
 | sstmt
 ;
+
+/* Switch case */
+
+switchstmt:SWITCH '(' expr ')' '{' cases '}'
+;
+
+cases:
+|cases case;
+
+case: CASE terms COLON sstmts;
+;
+
+breakstmt: BREAK termination
+;
+constmt: CONTINUE termination
+
 
 /* Boolean and ARthimetic Expressions */
 
@@ -259,7 +284,7 @@ aexpr: terms op terms {cout<<"ARthimetic exp found\n";}
 | aexpr op aexpr %prec shift
 | aexpr BITOP aexpr %prec shift
 ;
-op: PLUS | MIN | DIV | MUL
+op: PLUS | MIN | DIV | MUL | MOD | POW
 ;
 bexpr: bexpr_ RELOP bexpr_
 | bexpr_ logop bexpr_
