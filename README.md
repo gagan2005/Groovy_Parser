@@ -1,3 +1,10 @@
 # Groovy_to_C
+build commands->
+->   bison -d parser.y
+->   flex lexanalyzer.l
+->   g++  lex.yy.c parser.tab.c -lfl
 
-A command-line utility that converts any Groovy program to its equivalent C program
+OR
+
+->   chmod +x build.sh
+->   ./build.sh
