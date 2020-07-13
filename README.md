@@ -1,4 +1,4 @@
-# Groovy_to_C
+# Groovy_Parser
 
 A bison and flex parser for Groovy
 ## build commands. 
